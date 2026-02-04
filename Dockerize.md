@@ -37,12 +37,15 @@ RUN pip install -r requirements.txt
 
 - next, create a docker-compose.yaml file
 ```
-version "3"
-
 services:
     web:
         build: .
         command: sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
         ports:
             - 8000:8000
+```
+
+- build the container
+```
+docker compose up --build
 ```
