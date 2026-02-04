@@ -49,3 +49,13 @@ services:
 ```
 docker compose up --build
 ```
+
+- stop the container
+```
+CTRL + C
+```
+
+- rerun the container
+```
+docker compose up
+```
