@@ -26,8 +26,6 @@ def root(request: Request):
 
     html_content = markdown.markdown(md_text, extensions=["fenced_code", "tables"])
 
-    print(html_content)
-
     return templates.TemplateResponse(
         "index.html",
         {"request": request, "content": html_content},
