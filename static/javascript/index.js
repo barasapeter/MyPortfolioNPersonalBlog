@@ -57,7 +57,7 @@ ${color("Available commands:", "note")}
   Show this help menu
 
 • ${color("menu", "keyword")} ${color("--show", "flag")}
-  Display portfolio sections
+  Display summarized portfolio sections
 
 • ${color("resume", "keyword")} ${color("--download", "flag")}
   Download my resume
