@@ -139,19 +139,19 @@ app = FastAPI(
 )
 
 
-# @app.middleware("http")
-# async def log_requests(request: Request, call_next):
-#     start_time = time.time()
-#     try:
-#         response: Response = await call_next(request)
-#     except Exception as e:
-#         logger.exception(f"Unhandled error: {e}")
-#         raise e
-#     process_time = time.time() - start_time
-#     logger.info(
-#         f"{request.method} {request.url.path} - Status: {response.status_code} - Time: {process_time:.2f}s"
-#     )
-#     return response
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    try:
+        response: Response = await call_next(request)
+    except Exception as e:
+        logger.exception(f"Unhandled error: {e}")
+        raise e
+    process_time = time.time() - start_time
+    logger.info(
+        f"{request.method} {request.url.path} - Status: {response.status_code} - Time: {process_time:.2f}s"
+    )
+    return response
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

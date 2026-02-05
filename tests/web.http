@@ -2,5 +2,7 @@ POST http://localhost:8000/api/v1/create-user
 Content-Type: application/json
 
 {
-  "client": "Request from HTTP Client"
+  "username": "barasa",
+  "full_name": "Peter Barasa",
+  "email": "name@example.com"
 }

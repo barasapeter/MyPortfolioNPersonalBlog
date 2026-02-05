@@ -34,3 +34,18 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
     raise JSONDecodeError("Expecting value", s, err.value) from None
 json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 
+2026-02-05 23:29:27,651 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 405 - Time: 0.00s
+2026-02-05 23:29:43,423 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.01s
+2026-02-05 23:35:11,349 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-05 23:35:16,978 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-05 23:35:51,579 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-05 23:35:51,701 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
+2026-02-05 23:35:52,838 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-05 23:35:52,923 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
+2026-02-05 23:35:53,063 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-05 23:35:53,146 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
+2026-02-05 23:46:34,181 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
+2026-02-05 23:48:51,272 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 405 - Time: 0.00s
+2026-02-05 23:49:01,056 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.00s
+2026-02-05 23:49:34,477 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.00s
+2026-02-05 23:50:06,945 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.00s
