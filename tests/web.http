@@ -1,8 +1,10 @@
+
+
 POST http://localhost:8000/api/v1/create-user
 Content-Type: application/json
 
 {
   "username": "barasa",
   "full_name": "Peter Barasa",
-  "email": "name@example.com"
+  "email": "barasapeter53@gmail.com"
 }

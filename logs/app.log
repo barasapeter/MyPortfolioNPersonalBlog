@@ -1,51 +1,5 @@
-2026-02-05 23:02:42,637 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 500
-2026-02-05 23:02:42,644 - Portfolio Blog - ERROR - Internal Server Error during Create User - Traceback (most recent call last):
-  File "C:\Users\nickk\dev\MyPortfolioBlog\api\v1\api.py", line 23, in create_user
-    payload = await request.json()
-              ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\requests.py", line 249, in json
-    self._json = json.loads(body)
-                 ~~~~~~~~~~^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 345, in decode
-    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
-               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 363, in raw_decode
-    raise JSONDecodeError("Expecting value", s, err.value) from None
-json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
-
-2026-02-05 23:06:12,073 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 500
-2026-02-05 23:06:12,080 - Portfolio Blog - ERROR - Internal Server Error during Create User - Traceback (most recent call last):
-  File "C:\Users\nickk\dev\MyPortfolioBlog\api\v1\api.py", line 23, in create_user
-    payload = await request.json()
-              ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\requests.py", line 249, in json
-    self._json = json.loads(body)
-                 ~~~~~~~~~~^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 345, in decode
-    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
-               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\nickk\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 363, in raw_decode
-    raise JSONDecodeError("Expecting value", s, err.value) from None
-json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
-
-2026-02-05 23:29:27,651 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 405 - Time: 0.00s
-2026-02-05 23:29:43,423 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.01s
-2026-02-05 23:35:11,349 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.00s
-2026-02-05 23:35:16,978 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
-2026-02-05 23:35:51,579 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
-2026-02-05 23:35:51,701 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
-2026-02-05 23:35:52,838 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
-2026-02-05 23:35:52,923 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
-2026-02-05 23:35:53,063 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 200 - Time: 0.00s
-2026-02-05 23:35:53,146 - Portfolio Blog - INFO - GET /favicon.ico - Status: 404 - Time: 0.00s
-2026-02-05 23:46:34,181 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
-2026-02-05 23:48:51,272 - Portfolio Blog - INFO - GET /api/v1/create-user - Status: 405 - Time: 0.00s
-2026-02-05 23:49:01,056 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.00s
-2026-02-05 23:49:34,477 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.00s
-2026-02-05 23:50:06,945 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.00s
+2026-02-06 00:45:26,586 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
+2026-02-06 00:46:30,724 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 200 - Time: 0.03s
+2026-02-06 00:46:34,047 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
+2026-02-06 00:46:47,456 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
+2026-02-06 00:47:01,717 - Portfolio Blog - INFO - POST /api/v1/create-user - Status: 400 - Time: 0.01s
