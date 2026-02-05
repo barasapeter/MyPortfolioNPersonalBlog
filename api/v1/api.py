@@ -95,6 +95,8 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
             key: value for key, value in payload.items() if key in allowed_fields
         }
 
+
+        # -------- checks for existing user with primary credentials
         existing_user = (
             db.query(User)
             .filter(
