@@ -76,6 +76,50 @@
         .link-hover:hover::after {
             width: 100%;
         }
+
+        #terminal {
+            font-family: monospace;
+            font-size: 14px;
+            cursor: text;
+            outline: none;
+            user-select: none;
+        }
+
+        .prompt {
+            color: #6b7280;
+        }
+
+        .input {
+            color: #22c55e;
+            display: inline;
+        }
+
+        .placeholder {
+            color: #9ca3af;
+            display: inline;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.2em;
+            background: currentColor;
+            vertical-align: -0.2em;
+            animation: blink 1s steps(1) infinite;
+            margin: 0;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        #hiddenInput {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
@@ -86,55 +130,8 @@
 <body class="bg-white text-gray-900 antialiased">
     <div class="min-h-screen px-6 py-10 max-w-3xl mx-auto">
 
-        <div class="flex items-center justify-between mb-20">
-
+        <div class="flex items-center justify-between mb-8">
             <div id="terminal-wrapper">
-                <style>
-                    #terminal {
-                        font-family: monospace;
-                        font-size: 14px;
-                        cursor: text;
-                        outline: none;
-                        user-select: none;
-                    }
-
-                    .prompt {
-                        color: #6b7280;
-                    }
-
-                    .input {
-                        color: #22c55e;
-                        display: inline;
-                    }
-
-                    .placeholder {
-                        color: #9ca3af;
-                        display: inline;
-                    }
-
-                    .cursor {
-                        display: inline-block;
-                        width: 0.6em;
-                        height: 1.2em;
-                        background: currentColor;
-                        vertical-align: -0.2em;
-                        animation: blink 1s steps(1) infinite;
-                        margin: 0;
-                    }
-
-                    @keyframes blink {
-                        50% {
-                            opacity: 0;
-                        }
-                    }
-
-                    #hiddenInput {
-                        position: absolute;
-                        opacity: 0;
-                        pointer-events: none;
-                    }
-                </style>
-
                 <div id="terminal" tabindex="0">
                     <span class="prompt">guest@portfolio:~$ </span>
                     <span id="input-container">
@@ -142,63 +139,8 @@
                             class="placeholder">help</span>
                     </span>
                 </div>
-
                 <input id="hiddenInput" autocomplete="off" />
-
-                <script>
-                    const terminal = document.getElementById("terminal");
-                    const hiddenInput = document.getElementById("hiddenInput");
-                    const inputSpan = document.getElementById("input");
-                    const placeholder = document.getElementById("placeholder");
-                    const inputContainer = document.getElementById("input-container");
-                    const cursor = document.querySelector(".cursor");
-
-                    function updateCursor() {
-                        inputContainer.insertBefore(cursor, inputSpan.nextSibling);
-                        updatePlaceholder();
-                    }
-
-                    function updatePlaceholder() {
-                        placeholder.style.display =
-                            inputSpan.textContent.length === 0 ? "inline" : "none";
-                    }
-
-                    terminal.addEventListener("mousedown", () => {
-                        hiddenInput.focus();
-                    });
-
-                    hiddenInput.addEventListener("blur", () => {
-                        setTimeout(() => hiddenInput.focus(), 0);
-                    });
-
-                    hiddenInput.addEventListener("keydown", (e) => {
-                        if (e.key === "Backspace") {
-                            inputSpan.textContent = inputSpan.textContent.slice(0, -1);
-                            updateCursor();
-                            e.preventDefault();
-                            return;
-                        }
-
-                        if (e.key === "Enter") {
-                            console.log("command:", inputSpan.textContent);
-                            inputSpan.textContent = "";
-                            updateCursor();
-                            e.preventDefault();
-                            return;
-                        }
-
-                        if (e.key.length === 1) {
-                            inputSpan.textContent += e.key;
-                            updateCursor();
-                            e.preventDefault();
-                        }
-                    });
-
-                    updateCursor();
-                    hiddenInput.focus();
-                </script>
             </div>
-
 
             <a href="" class="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2 hover-underline">
                 <i data-lucide="book-open" class="w-4 h-4"></i>
@@ -206,15 +148,25 @@
             </a>
         </div>
 
-        <div class="relative w-fit mb-14">
+        <div id="outputCanvas"
+            class="hidden bg-white text-gray-800 font-mono text-sm p-4 rounded-md shadow border border-gray-300 mt-4 mb-16 max-w-3xl">
+            <h1 class="flex gap-2">
+                <span class="text-gray-600">$</span>
+                <span>Command:</span>
+                <span id="userInputEcho" class="text-gray-700"></span>
+            </h1>
+        </div>
+
+
+        <div class="relative w-fit mb-14 mt-32">
             <div class="absolute -top-4 -right-4 w-56 h-72 rounded-2xl
-                bg-slate-200 rotate-[6deg] shadow-xl"></div>
+        bg-slate-200 rotate-[6deg] shadow-xl"></div>
 
             <div class="absolute -top-2 -right-2 w-56 h-72 rounded-2xl
-                bg-blue-200/70 rotate-[2deg] shadow-lg"></div>
+        bg-blue-200/70 rotate-[2deg] shadow-lg"></div>
 
             <img src="/static/images/me.jpeg" alt="Portrait" class="relative w-56 h-72 object-cover rounded-2xl
-                shadow-2xl ring-1 ring-black/5" />
+        shadow-2xl ring-1 ring-black/5" />
         </div>
 
         <div class="space-y-6 max-w-xl text-gray-700">
@@ -1065,7 +1017,8 @@
                                 Backend Engineering | DevSecOps | FinTech Systems</p>
                             <p class="mb-2"><span class="font-semibold">Cloud:</span> AWS (expert), Azure (intermediate)
                             </p>
-                            <p class="mb-2"><span class="font-semibold">Languages:</span> Java, Python, Golang, C++, Node.js, SQL,
+                            <p class="mb-2"><span class="font-semibold">Languages:</span> Java, Python, Golang, C++,
+                                Node.js, SQL,
                                 Bash</p>
                         </div>
                         <div>
@@ -1084,10 +1037,7 @@
         </footer>
 
     </div>
-
-    <script>
-        lucide.createIcons();
-    </script>
+    <script src="/static/javascript/index.js"></script>
 </body>
 
 </html>
