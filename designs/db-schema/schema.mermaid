@@ -1,0 +1,66 @@
+erDiagram
+    USERS ||--o{ POSTS : "writes"
+    USERS {
+        int id PK
+        varchar username
+        varchar email
+        varchar password_hash
+        varchar full_name
+        text bio
+        varchar avatar_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CATEGORIES ||--o{ POSTS : "categorizes"
+    CATEGORIES {
+        int id PK
+        varchar name
+        varchar slug
+        text description
+        timestamp created_at
+    }
+
+    POSTS ||--o{ POST_TAGS : "has"
+    POSTS ||--o{ COMMENTS : "receives"
+    POSTS {
+        int id PK
+        varchar title
+        varchar slug
+        text excerpt
+        longtext content
+        varchar featured_image
+        int author_id FK
+        int category_id FK
+        enum status
+        int view_count
+        timestamp published_at
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    TAGS ||--o{ POST_TAGS : "tags"
+    TAGS {
+        int id PK
+        varchar name
+        varchar slug
+        timestamp created_at
+    }
+
+    POST_TAGS {
+        int post_id FK
+        int tag_id FK
+    }
+
+    COMMENTS ||--o{ COMMENTS : "replies_to"
+    COMMENTS {
+        int id PK
+        int post_id FK
+        varchar author_name
+        varchar author_email
+        varchar author_website
+        text content
+        enum status
+        int parent_id FK
+        timestamp created_at
+    }
