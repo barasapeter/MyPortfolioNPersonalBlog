@@ -10,121 +10,11 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            font-feature-settings: "liga", "kern";
-        }
-
-        .font-mono {
-            font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 0.6em;
-            height: 1.2em;
-            background: currentColor;
-            margin-left: 2px;
-            vertical-align: -0.2em;
-            animation: blink 1s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-
-        .hover-underline {
-            position: relative;
-            display: inline-block;
-        }
-
-        .hover-underline::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #10b981;
-            transition: width 0.3s ease;
-        }
-
-        .hover-underline:hover::after {
-            width: 100%;
-        }
-
-        .link-hover {
-            position: relative;
-            display: inline-block;
-        }
-
-        .link-hover::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #10b981;
-            transition: width 0.3s ease;
-        }
-
-        .link-hover:hover::after {
-            width: 100%;
-        }
-
-        #terminal {
-            font-family: monospace;
-            font-size: 14px;
-            cursor: text;
-            outline: none;
-            user-select: none;
-        }
-
-        .prompt {
-            color: #6b7280;
-        }
-
-        .input {
-            color: #22c55e;
-            display: inline;
-        }
-
-        .placeholder {
-            color: #9ca3af;
-            display: inline;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 0.6em;
-            height: 1.2em;
-            background: currentColor;
-            vertical-align: -0.2em;
-            animation: blink 1s steps(1) infinite;
-            margin: 0;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        #hiddenInput {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-    </style>
-
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
+
+    <link rel="stylesheet" href="/static/css/index.css">
 </head>
 
 <body class="bg-white text-gray-900 antialiased">
@@ -142,7 +32,7 @@
                 <input id="hiddenInput" autocomplete="off" />
             </div>
 
-            <a href="" class="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2 hover-underline">
+            <a href="/blog" class="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2 hover-underline">
                 <i data-lucide="book-open" class="w-4 h-4"></i>
                 Blog
             </a>
@@ -160,9 +50,6 @@
 
             <pre id="commandOutput" class="text-green-400 whitespace-pre-wrap leading-relaxed"></pre>
         </div>
-
-
-
 
         <div class="relative w-fit mb-14 mt-32">
             <div class="absolute -top-4 -right-4 w-56 h-72 rounded-2xl
