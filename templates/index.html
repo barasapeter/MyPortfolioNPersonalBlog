@@ -81,16 +81,131 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body class="bg-white text-gray-900 antialiased">
     <div class="min-h-screen px-6 py-10 max-w-3xl mx-auto">
 
         <div class="flex items-center justify-between mb-20">
-            <div class="font-mono text-sm text-gray-600">
-                peter@portfolio:~$ <span class="cursor"></span>
+
+            <div id="terminal-wrapper">
+                <style>
+                    #terminal {
+                        font-family: monospace;
+                        font-size: 14px;
+                        cursor: text;
+                        outline: none;
+                        user-select: none;
+                    }
+
+                    .prompt {
+                        color: #6b7280;
+                        /* gray-500 */
+                    }
+
+                    .input {
+                        color: #22c55e;
+                        /* green-500 */
+                        display: inline;
+                        /* ensure inline, flush with cursor */
+                    }
+
+                    .placeholder {
+                        color: #9ca3af;
+                        /* gray-400 */
+                        display: inline;
+                        /* ensure inline, flush with cursor */
+                    }
+
+                    .cursor {
+                        display: inline-block;
+                        width: 0.6em;
+                        height: 1.2em;
+                        background: currentColor;
+                        vertical-align: -0.2em;
+                        animation: blink 1s steps(1) infinite;
+                        margin: 0;
+                        /* remove any default gap */
+                    }
+
+                    @keyframes blink {
+                        50% {
+                            opacity: 0;
+                        }
+                    }
+
+                    #hiddenInput {
+                        position: absolute;
+                        opacity: 0;
+                        pointer-events: none;
+                    }
+                </style>
+
+                <div id="terminal" tabindex="0">
+                    <span class="prompt">guest@portfolio:~$ </span>
+                    <span id="input-container">
+                        <span id="input" class="input"></span><span class="cursor"></span><span id="placeholder"
+                            class="placeholder">help</span>
+                    </span>
+                </div>
+
+                <input id="hiddenInput" autocomplete="off" />
+
+                <script>
+                    const terminal = document.getElementById("terminal");
+                    const hiddenInput = document.getElementById("hiddenInput");
+                    const inputSpan = document.getElementById("input");
+                    const placeholder = document.getElementById("placeholder");
+                    const inputContainer = document.getElementById("input-container");
+                    const cursor = document.querySelector(".cursor");
+
+                    function updateCursor() {
+                        // Always put cursor after inputSpan
+                        inputContainer.insertBefore(cursor, inputSpan.nextSibling);
+                        updatePlaceholder();
+                    }
+
+                    function updatePlaceholder() {
+                        placeholder.style.display =
+                            inputSpan.textContent.length === 0 ? "inline" : "none";
+                    }
+
+                    terminal.addEventListener("mousedown", () => {
+                        hiddenInput.focus();
+                    });
+
+                    hiddenInput.addEventListener("blur", () => {
+                        setTimeout(() => hiddenInput.focus(), 0);
+                    });
+
+                    hiddenInput.addEventListener("keydown", (e) => {
+                        if (e.key === "Backspace") {
+                            inputSpan.textContent = inputSpan.textContent.slice(0, -1);
+                            updateCursor();
+                            e.preventDefault();
+                            return;
+                        }
+
+                        if (e.key === "Enter") {
+                            console.log("command:", inputSpan.textContent);
+                            inputSpan.textContent = "";
+                            updateCursor();
+                            e.preventDefault();
+                            return;
+                        }
+
+                        if (e.key.length === 1) {
+                            inputSpan.textContent += e.key;
+                            updateCursor();
+                            e.preventDefault();
+                        }
+                    });
+
+                    updateCursor();
+                    hiddenInput.focus();
+                </script>
             </div>
+
 
             <a href="" class="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2 hover-underline">
                 <i data-lucide="book-open" class="w-4 h-4"></i>
