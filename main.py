@@ -157,6 +157,7 @@ async def log_requests(request: Request, call_next):
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(create_user_router, prefix=settings.API_V1_STR)
 app.include_router(home_router, prefix="")
 
