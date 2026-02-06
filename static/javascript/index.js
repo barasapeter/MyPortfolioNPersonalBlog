@@ -164,7 +164,7 @@ ${color("Building reliable systems.", "note")}
             break;
 
         case "blog":
-            output.innerHTML = `${color("Opening Blogs...", "note")}`;
+            output.innerHTML = `Opening Blogs... ${color("Opening Blogs...", "note")}`;
             setTimeout(() => {
                 window.location.href = "/blog";
             }, 800);

@@ -29,3 +29,11 @@ def root(request: Request):
         "index.html",
         {"request": request, "content": html_content},
     )
+
+
+@router.get("/blog")
+def blog(request: Request):
+    return templates.TemplateResponse(
+        "blog.html",
+        {"request": request},
+    )
