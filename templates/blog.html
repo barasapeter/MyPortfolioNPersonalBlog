@@ -5,11 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
 </head>
 
 <body>
     <h1>Hello, I'm Bloggy :)</h1>
+    <h2>ID:: {{ user_id }}</h2>
 
+    <div>
+        {% for post in posts %}
+        <div>
+            <h3>{{ post }}</h3>
+            <code>{{ post.content }}</code>
+            <code>{{ post.author }}</code>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 
 </html>

@@ -4,6 +4,6 @@ POST http://localhost:8000/api/v1/login
 Content-Type: application/json
 
 {
-  "uername": "barasapeter52@gmail.com",
+  "username": "barasa",
   "password": "UNUSABLE_PASSWORD"
 }

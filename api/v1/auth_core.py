@@ -116,6 +116,18 @@ def get_current_user(request: Request) -> str:
     return payload["sub"]
 
 
+def get_optional_user(request: Request) -> str | None:
+    token = request.cookies.get("access_token")
+    if not token:
+        return None
+
+    try:
+        payload = verify_token(token, "access")
+        return payload["sub"]
+    except Exception:
+        return None
+
+
 def csrf_protect(request: Request):
     """
     Double-submit cookie CSRF protection.
