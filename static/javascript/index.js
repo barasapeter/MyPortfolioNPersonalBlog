@@ -24,6 +24,7 @@ function updatePlaceholder() {
 
 terminalWrapper.addEventListener("click", () => {
     hiddenInput.focus({ preventScroll: true });
+    window.location.reload();
 });
 
 
