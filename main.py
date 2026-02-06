@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
-from api.v1.api import api_router
+from api.v1.createuser import router as create_user_router
+from api.v1.auth import router as auth_router
 from core.config import settings
 from web.home import router as home_router
 from fastapi.staticfiles import StaticFiles
@@ -156,7 +157,7 @@ async def log_requests(request: Request, call_next):
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(create_user_router, prefix=settings.API_V1_STR)
 app.include_router(home_router, prefix="")
 
 

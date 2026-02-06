@@ -17,12 +17,12 @@ from core.config import settings
 
 from db import *
 
-api_router = APIRouter()
+router = APIRouter()
 
 logger = logging.getLogger(settings.PROJECT_NAME)
 
 
-@api_router.post("/create-user")
+@router.post("/create-user")
 async def create_user(request: Request, db: Session = Depends(get_db)):
     try:
         payload = await request.json()
