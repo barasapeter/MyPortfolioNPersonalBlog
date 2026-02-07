@@ -59,3 +59,17 @@ def blog(
             "is_authenticated": user_id is not None,
         },
     )
+
+
+@router.get("/login")
+def blog(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+
+    return templates.TemplateResponse(
+        "login.html",
+        {
+            "request": request,
+        },
+    )
