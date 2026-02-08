@@ -67,6 +67,55 @@
             </div>
         </div>
 
+        {% if is_authenticated %}
+        <div class="border-b border-[#eff3f4] px-4 py-3">
+            <div class="flex gap-3">
+                <!-- Avatar -->
+                <div class="flex-shrink-0">
+                    {% if current_user.avatar_url %}
+                    <img src="{{ current_user.avatar_url }}" alt="{{ current_user.username }}"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    {% else %}
+                    <img src="/static/images/me.jpeg" alt="{{ current_user.username }}"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    {% endif %}
+                </div>
+
+                <div class="flex-1">
+                    <form method="POST" action="/posts/create">
+                        <textarea name="content" rows="2" placeholder="Write blog excerpt"
+                            class="w-full resize-none text-[20px] leading-6 placeholder-[#536471] focus:outline-none bg-transparent"></textarea>
+
+                        <div class="flex items-center justify-between mt-3">
+                            <div class="flex items-center gap-2 -ml-2">
+                                <button type="button"
+                                    class="w-[34px] h-[34px] rounded-full flex items-center justify-center hover:bg-[#1d9bf0]/10 transition">
+                                    <svg viewBox="0 0 24 24" class="w-5 h-5 fill-[#1d9bf0]">
+                                        <path
+                                            d="M3 5.5C3 4.12 4.12 3 5.5 3h13C19.88 3 21 4.12 21 5.5v13c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.88 3 18.5v-13zM8.5 10A1.5 1.5 0 108.5 7a1.5 1.5 0 000 3zm9.5 7l-4.5-6-3.5 4.5-2.5-3L5 17h13z" />
+                                    </svg>
+                                </button>
+
+                                <button type="button"
+                                    class="w-[34px] h-[34px] rounded-full flex items-center justify-center hover:bg-[#1d9bf0]/10 transition">
+                                    <svg viewBox="0 0 24 24" class="w-5 h-5 fill-[#1d9bf0]">
+                                        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <button type="submit"
+                                class="bg-[#1d9bf0] text-white font-bold text-[15px] px-4 py-1.5 rounded-full hover:bg-[#1a8cd8] transition disabled:opacity-50">
+                                Compose Blog →
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
         <div>
             {% for post in posts %}
             <article class="border-b border-[#eff3f4] px-4 py-3 transition cursor-pointer hover:bg-[#f7f9f9]">

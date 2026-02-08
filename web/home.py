@@ -57,6 +57,7 @@ def blog(
             "posts": posts,
             "user_id": user_id,
             "is_authenticated": user_id is not None,
+            "current_user": db.query(User).filter(User.id == user_id).first(),
         },
     )
 
