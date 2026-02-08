@@ -113,11 +113,24 @@ def account(
 
     show_edit_button = logged_in_user and logged_in_user.id == profile_user.id
 
+    posts = (
+        db.query(Post)
+        .options(
+            joinedload(Post.author),
+            joinedload(Post.category),
+            joinedload(Post.tags),
+        )
+        .filter(Post.status == PostStatus.PUBLISHED, Post.author_id == profile_user.id)
+        .order_by(Post.published_at.desc())
+        .all()
+    )
+
     return templates.TemplateResponse(
         "account.html",
         {
             "request": request,
             "user": profile_user,
             "show_edit_button": show_edit_button,
+            "posts": posts,
         },
     )
