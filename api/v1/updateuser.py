@@ -93,7 +93,7 @@ async def update_profile(
             try:
                 avatar.file.seek(0)
                 img = Image.open(avatar.file)
-                img.verify()  # verifies file integrity
+                img.verify()
                 avatar.file.seek(0)
             except UnidentifiedImageError:
                 return JSONResponse(
@@ -107,7 +107,7 @@ async def update_profile(
                     content={"detail": "Unsupported image format"},
                 )
 
-            unique_name = f"avatar-{user.id}.webp"
+            unique_name = f"avatar-{user.id}-su.webp"
             save_path = os.path.join(AVATAR_DIR, unique_name)
 
             image = Image.open(avatar.file).convert("RGBA")

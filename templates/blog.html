@@ -104,7 +104,7 @@
                                 {% if post.published_at %}
                                 {{ post.published_at.strftime("%b %d") }}
                                 {% else %}
-                                Just now
+                                [time::ago]
                                 {% endif %}
                             </span>
                         </div>
