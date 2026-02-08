@@ -55,9 +55,9 @@ async def login(response: Response, request: Request, db: Session = Depends(get_
                 content={"detail": "The sign-in details are incorrect."},
             )
 
-        user_id = user.id
-        set_auth_cookies(response, user_id)
-        return {"detail": "Login successful"}
+        response = JSONResponse(content={"detail": "Login successful"})
+        set_auth_cookies(response, str(user.id))
+        return response
 
     except Exception as e:
         logger.error(

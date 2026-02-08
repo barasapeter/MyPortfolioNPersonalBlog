@@ -11,7 +11,7 @@ from db.base import get_db
 from db import Post, PostStatus
 
 from schemas.item import Item, ItemCreate, ItemUpdate
-from api.v1.auth_core import get_current_user, get_optional_user
+from api.v1.auth_core import get_current_user, get_optional_user, verify_token
 
 
 router = APIRouter()
@@ -49,6 +49,19 @@ def blog(
         .order_by(Post.published_at.desc())
         .all()
     )
+
+    print("HOST:", request.url.hostname)
+    print("COOKIES:", request.cookies)
+
+    token = request.cookies.get("access_token")
+    print("TOKEN EXISTS:", bool(token))
+
+    if token:
+        try:
+            payload = verify_token(token, "access")
+            print("JWT PAYLOAD:", payload)
+        except Exception as e:
+            print("JWT ERROR:", e)
 
     return templates.TemplateResponse(
         "blog.html",

@@ -62,10 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            window.location.href = "/";
+            window.location.href = data.redirect || "/blog";
         } catch (err) {
             console.error(err);
             showError("Network error. Please try again.");
+            setLoading(false);
+        } finally {
             setLoading(false);
         }
     });

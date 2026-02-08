@@ -4,7 +4,7 @@ import secrets
 
 from fastapi import Depends, HTTPException, Request, Response, status
 from jose import jwt, JWTError
-
+import traceback
 from core.config import settings
 
 # ======================
@@ -54,8 +54,12 @@ def verify_token(token: str, token_type: str) -> dict:
         if payload.get("type") != token_type:
             raise HTTPException(status_code=401, detail="Invalid token type")
         return payload
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    # except JWTError:
+    except Exception as e:
+        raise HTTPException(
+            status_code=401,
+            detail=f"{str(e)}, ::: {traceback.format_exc()}",
+        )
 
 
 # ======================
