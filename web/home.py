@@ -50,19 +50,6 @@ def blog(
         .all()
     )
 
-    print("HOST:", request.url.hostname)
-    print("COOKIES:", request.cookies)
-
-    token = request.cookies.get("access_token")
-    print("TOKEN EXISTS:", bool(token))
-
-    if token:
-        try:
-            payload = verify_token(token, "access")
-            print("JWT PAYLOAD:", payload)
-        except Exception as e:
-            print("JWT ERROR:", e)
-
     return templates.TemplateResponse(
         "blog.html",
         {
@@ -82,6 +69,20 @@ def blog(
 
     return templates.TemplateResponse(
         "login.html",
+        {
+            "request": request,
+        },
+    )
+
+
+@router.get("/account")
+def blog(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+
+    return templates.TemplateResponse(
+        "account.html",
         {
             "request": request,
         },

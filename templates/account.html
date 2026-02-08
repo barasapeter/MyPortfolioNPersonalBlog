@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-black min-h-screen font-sans">
+    <div class="max-w-2xl mx-auto px-4 py-10">
+
+        <div class="flex items-center gap-4 mb-8">
+            <a href="" class="text-gray-500 hover:text-black">&larr;</a>
+            <h1 class="text-xl font-semibold">Edit Profile</h1>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <img src="{{ avatar_url or '/static/images/me.jpeg' }}" alt="Avatar"
+                class="w-20 h-20 rounded-full object-cover border border-gray-300" />
+
+            <div class="flex flex-col gap-1">
+                <label class="text-sm text-gray-600">Profile photo</label>
+
+                <label for="avatar" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium
+                   border border-gray-300 rounded-full cursor-pointer
+                   hover:bg-gray-100 transition">
+                    Change avatar
+                </label>
+
+                <input id="avatar" name="avatar" type="file" accept="image/*" class="hidden" />
+
+                <p class="text-xs text-gray-500">
+                    JPG, PNG, or WEBP. Max 2MB.
+                </p>
+            </div>
+        </div>
+
+
+        <form class="space-y-6">
+
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Full Name</label>
+                <input type="text" name="full_name" value="{{ full_name }}" placeholder="Jane Doe"
+                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Username</label>
+                <input type="text" name="username" value="{{ username }}" placeholder="@username"
+                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Email</label>
+                <input type="email" name="email" value="{{ email }}"
+                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Bio</label>
+                <textarea name="bio" rows="4" placeholder="Tell people a little about yourself..."
+                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-black">{{ bio }}</textarea>
+                <p class="text-xs text-gray-500 mt-1">Max 160 characters</p>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                <button type="button"
+                    class="px-4 py-2 rounded-full border border-gray-400 text-gray-700 hover:bg-gray-100">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-5 py-2 rounded-full bg-black text-white font-semibold hover:bg-gray-900">
+                    Save
+                </button>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+</html>
