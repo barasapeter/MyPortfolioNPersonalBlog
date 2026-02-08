@@ -44,8 +44,48 @@ bioInput.addEventListener('input', () => {
     charCount.textContent = bioInput.value.length;
 });
 
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+
+    const toast = document.createElement('div');
+    toast.className = `
+        flex items-center gap-3
+        px-4 py-3 rounded-lg shadow-lg
+        text-sm font-medium
+        transform transition-all duration-300
+        opacity-0 translate-y-[-10px]
+        ${type === 'success'
+            ? 'bg-black text-white'
+            : 'bg-red-600 text-white'}
+    `;
+
+    toast.innerHTML = `
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.classList.remove('opacity-0', 'translate-y-[-10px]');
+        toast.classList.add('opacity-100', 'translate-y-0');
+    });
+
+    setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+
 profileForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const submitBtn = profileForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating...';
+    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
     const formData = new FormData();
     formData.append('full_name', document.getElementById('fullNameInput').value);
@@ -58,18 +98,38 @@ profileForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        const response = await fetch('/account/update', {
+        const response = await fetch('/api/v1/update-profile', {
             method: 'POST',
             body: formData
         });
 
-        if (response.ok) {
-            window.location.reload();
-        } else {
-            alert('Failed to update profile');
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || 'Profile update failed');
         }
+
+        showToast('Update success', 'success');
+
+        editMode.classList.add('hidden');
+        viewMode.classList.remove('hidden');
+        editBtn.classList.remove('hidden');
+        pageTitle.textContent = 'Profile';
+
+        if (data.user?.avatar) {
+            document.querySelectorAll('img').forEach(img => {
+                if (img.id === 'avatarPreview' || img.alt === data.user.username) {
+                    img.src = data.user.avatar + '?v=' + Date.now();
+                }
+            });
+        }
+
     } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred');
+        console.error(error);
+        showToast(error.message || 'Something went wrong', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
     }
 });
