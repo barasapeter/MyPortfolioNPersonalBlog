@@ -80,21 +80,13 @@ def account(
     request: Request,
     db: Session = Depends(get_db),
     user_id: int | None = Depends(get_optional_user),
-    username: str = Query(None),  # This makes it truly optional
+    username: str = Query(None),
 ):
-    """
-    Profile view:
-    - /account → logged in user's own profile (with edit button)
-    - /account?username=john → john's profile (edit button only if you're john)
-    """
-
     logged_in_user = None
     if user_id:
         logged_in_user = db.query(User).filter(User.id == user_id).first()
 
-    # Determine which profile to display
     if username:
-        # Specific user requested
         profile_user = db.query(User).filter(User.username == username).first()
         if not profile_user:
             return templates.TemplateResponse(
@@ -107,7 +99,6 @@ def account(
                 },
             )
     else:
-        # No username specified - show logged in user's profile
         if not logged_in_user:
             return templates.TemplateResponse(
                 "account.html",
@@ -120,7 +111,6 @@ def account(
             )
         profile_user = logged_in_user
 
-    # Determine if edit button should show
     show_edit_button = logged_in_user and logged_in_user.id == profile_user.id
 
     return templates.TemplateResponse(
