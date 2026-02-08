@@ -44,6 +44,13 @@
                         </div>
                     </button>
                 </div>
+                <!-- Toast container -->
+                <div id="auth-toast"
+                    class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-20 bg-gray-800 text-white px-6 py-3 rounded shadow-lg opacity-0 pointer-events-none transition-all duration-500 z-50">
+                </div>
+
+                <div id="auth-status" data-authenticated="{{ 'true' if is_authenticated else 'false' }}"></div>
+
                 <div class="flex-1 text-center">
                     {% if is_authenticated %}
                     <button onclick="window.location.href='/account'"
@@ -55,9 +62,36 @@
                         class="py-4 px-4 font-bold text-[15px] text-[#536471] hover:bg-[#f7f9f9] transition w-full">
                         Log In
                     </button>
-                    <!-- Here, i expect it to show that the user is logged in, but it isn't -->
                     {% endif %}
                 </div>
+
+                <script>
+                    function showToast(message, type = 'success', duration = 3000) {
+                        const toast = document.getElementById('auth-toast');
+                        toast.textContent = message;
+
+                        toast.classList.remove('bg-green-600', 'bg-red-500');
+                        toast.classList.add(type === 'success' ? 'bg-green-600' : 'bg-red-500');
+
+                        toast.classList.remove('-translate-y-20', 'opacity-0', 'pointer-events-none');
+                        toast.classList.add('translate-y-4', 'opacity-100');
+
+                        setTimeout(() => {
+                            toast.classList.remove('translate-y-4', 'opacity-100');
+                            toast.classList.add('-translate-y-20', 'opacity-0', 'pointer-events-none');
+                        }, duration);
+                    }
+
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const authStatus = document.getElementById('auth-status').dataset.authenticated;
+                        if (authStatus === 'true') {
+                            showToast("You are logged in!", "success", 4000);
+                        } else {
+                            showToast("You are not logged in", "error", 4000);
+                        }
+                    });
+                </script>
+
             </div>
         </div>
 
