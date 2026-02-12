@@ -21,16 +21,18 @@
     <div class="min-h-screen px-6 py-10 max-w-3xl mx-auto">
 
         <div class="flex items-center justify-between mb-8">
-            <div id="terminal-wrapper">
+            <div id="terminal-wrapper" class="hidden lg:block">
                 <div id="terminal" tabindex="0">
                     <span class="prompt font-extrabold">guest@portfolio:~$ </span>
                     <span id="input-container">
-                        <span id="input" class="input"></span><span class="cursor font-extrabold"></span><span
-                            id="placeholder" class="placeholder"></span> <!-- help -->
+                        <span id="input" class="input"></span>
+                        <span class="cursor font-extrabold"></span>
+                        <span id="placeholder" class="placeholder"></span>
                     </span>
                 </div>
                 <input id="hiddenInput" autocomplete="off" />
             </div>
+
 
             <a href="/blog" class="group inline-flex items-center gap-2
           rounded-lg border border-[#00A651]/20
@@ -57,16 +59,13 @@
             <pre id="commandOutput" class="text-green-400 whitespace-pre-wrap leading-relaxed"></pre>
         </div>
 
-        <div class="relative w-fit mb-14 mt-8">
+        <div class="relative w-fit mb-14 mt-16">
 
-            <div class="absolute -top-4 -right-4 w-56 h-72 rounded-2xl
-        bg-slate-200 rotate-[6deg] shadow-xl"></div>
+            <div class="absolute -top-4 -right-4 w-56 h-72 rounded-2xl bg-slate-200 rotate-[6deg] shadow-xl"></div>
 
-            <div class="absolute -top-2 -right-2 w-56 h-72 rounded-2xl
-        bg-blue-200/70 rotate-[2deg] shadow-lg"></div>
+            <div class="absolute -top-2 -right-2 w-56 h-72 rounded-2xl bg-blue-200/70 rotate-[2deg] shadow-lg"></div>
 
-            <img src="/static/images/me.jpeg" alt="Portrait" class="relative w-56 h-72 object-cover rounded-2xl
-        shadow-2xl ring-1 ring-black/5" />
+            <img src="/static/images/me.jpeg" alt="Portrait" class="relative w-56 h-72 object-cover rounded-2xl shadow-2xl ring-1 ring-black/5" />
         </div>
 
         <div class="space-y-6 text-gray-700">
