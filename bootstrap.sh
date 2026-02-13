@@ -60,8 +60,8 @@ POSTGRES_DB=$DB_NAME
 
 JWT_SECRET_KEY="i am batman"
 
-AWS_ACCESS_KEY="AKIARMSO57IJS4RI2X2T"
-AWS_SECRET_ACCESS_KEY="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"
+AWS_ACCESS_KEY=lolno
+AWS_SECRET_ACCESS_KEY=lol
 EOF"
 
 echo "==> Postgres: create db + set password (idempotent)"
