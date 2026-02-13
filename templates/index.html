@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peter barasa</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -41,9 +45,7 @@
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script src="https://unpkg.com/lucide@latest"></script>
+  
 
   <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
@@ -64,7 +66,7 @@
           <!-- Mobile Brand -->
           <a href="/" class="lg:hidden group inline-flex items-baseline gap-2" hidden>
             <span class="text-sm font-semibold text-neutral-500 dark:text-neutral-400">
-              Call me
+              <code>IaM</code>
             </span>
 
             <span class="text-xl font-black tracking-tight
@@ -76,23 +78,137 @@
           </a>
 
           <!-- Brand show only if on desktop -->
-          <div class="flex items-center justify-between">
-            <div id="terminal-wrapper" class="hidden lg:block">
-              <div
-                id="terminal"
-                tabindex="0"
-                class="shadow-none text-neutral-900 dark:text-neutral-100"
-              >
-                <span class="prompt font-extrabold">guest@portfolio:~$ </span>
-                <span id="input-container">
-                  <span id="input" class="input"></span>
-                  <span class="cursor font-extrabold"></span>
-                  <span id="placeholder" class="placeholder"></span>
-                </span>
-              </div>
-              <input id="hiddenInput" autocomplete="off" />
-            </div>
-          </div>
+<div class="flex items-center justify-between">
+  <div id="terminal-wrapper" class="hidden lg:block">
+    <div id="terminal" tabindex="0">
+      <style>
+        /* Scoped to this component only */
+        #terminal-wrapper { width: 340px; }
+
+        #terminal{
+          box-sizing: border-box;
+          width: 100%;
+          padding: 14px 16px 12px;
+          border-radius: 18px;
+          border: 1px solid rgba(148,163,184,.45);
+          background: rgba(255,255,255,.92);
+          box-shadow: none;
+          cursor: text;
+          text-align: left;
+          overflow: hidden;
+        }
+
+        /* Top chrome */
+        #terminal .term-chrome{
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          height: 18px;
+          /* margin-bottom: 10px; */
+          
+        }
+        #terminal .dot{
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          opacity: .95;
+        }
+        #terminal .dot.red{ background:#ef4444; }
+        #terminal .dot.yellow{ background:#f59e0b; }
+        #terminal .dot.green{ background:#22c55e; }
+
+        /* Body alignment */
+        #terminal .term-body{
+          display: flex;
+          align-items: baseline;       /* key for prompt/cursor alignment */
+          gap: 6px;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+          font-size: 13px;
+          line-height: 1.6;
+          letter-spacing: .2px;
+          color: #0f172a;
+        }
+
+        #terminal .prompt{
+          color: #16a34a;
+          font-weight: 800;
+          white-space: nowrap;         /* keep prompt in one line */
+          font-size: 18px;
+        }
+
+        #terminal #input-container{
+          display: inline-flex;
+          align-items: baseline;       /* cursor baseline correction */
+          gap: 0;
+          min-width: 1px;
+        }
+
+        #terminal #input{
+          display: inline;
+          color: inherit;
+          font-size: 18px;
+        }
+
+        /* Placeholder shows only when #input is empty (JS can still update it too) */
+        #terminal #placeholder{
+          color: rgba(100,116,139,.85);
+          margin-left: 0;
+          font-size: 18px;
+        }
+
+        /* Cursor alignment */
+        #terminal .cursor{
+          display: inline-block;
+          width: .6em;
+          height: 1.05em;
+          vertical-align: -0.18em;
+          margin-left: 0px;
+          background: currentColor;
+          color: #0f172a;
+          animation: blink 1s steps(1) infinite;
+          border-radius: 2px;
+        }
+        @keyframes blink{ 50%{ opacity:0; } }
+
+        /* Focus ring */
+        #terminal:focus{
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+          border-color: rgba(34,197,94,.45);
+        }
+
+        /* Dark mode (Tailwind .dark) */
+        .dark #terminal{
+          background: rgba(2,6,23,.72);
+          border-color: rgba(148,163,184,.22);
+        }
+        .dark #terminal .term-body{ color:#e2e8f0; }
+        .dark #terminal #placeholder{ color: rgba(148,163,184,.75); }
+        .dark #terminal .cursor{ color:#e2e8f0; }
+      </style>
+
+      <div class="term-chrome">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+
+      <div class="term-body">
+        <span class="prompt font-extrabold">guest@portfolio:~$</span>
+
+        <span id="input-container">
+          <span id="input" class="input"></span>
+          <span class="cursor font-extrabold"></span>
+          <!-- Placeholder text requested -->
+          <span id="placeholder" class="placeholder">"help"</span>
+        </span>
+      </div>
+    </div>
+
+    <input id="hiddenInput" autocomplete="off" />
+  </div>
+</div>
+
 
         </div>
 
@@ -139,100 +255,124 @@
       </div>
 
       <!-- Secondary nav: always visible, compact, iconed -->
-      <nav class="mt-5 flex flex-wrap items-center gap-2">
-        <a
-          href="#arsenal"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="wrench" class="w-4 h-4"></i>
-          Skills
-        </a>
+      <nav class="mt-6 flex flex-wrap items-center justify-center gap-2">
 
-        <a
-          href="#impact"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="target" class="w-4 h-4"></i>
-          Impact
-        </a>
+            <a
+                href="#arsenal"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-emerald-100 hover:text-emerald-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-emerald-900/40 dark:hover:text-emerald-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="wrench" class="w-4 h-4"></i>
+                Skills
+            </a>
 
-        <a
-          href="#philosophy"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="sparkles" class="w-4 h-4"></i>
-          Philosophy
-        </a>
+            <a
+                href="#impact"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-blue-100 hover:text-blue-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-blue-900/40 dark:hover:text-blue-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="target" class="w-4 h-4"></i>
+                Impact
+            </a>
 
-        <a
-          href="#domain"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="credit-card" class="w-4 h-4"></i>
-          FinTech
-        </a>
+            <a
+                href="#philosophy"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-purple-100 hover:text-purple-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-purple-900/40 dark:hover:text-purple-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                Philosophy
+            </a>
 
-        <a
-          href="#learning"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
-          Learning
-        </a>
+            <a
+                href="#domain"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-indigo-100 hover:text-indigo-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-indigo-900/40 dark:hover:text-indigo-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                FinTech
+            </a>
 
-        <a
-          href="#principles"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="shield-check" class="w-4 h-4"></i>
-          Principles
-        </a>
+            <a
+                href="#learning"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-amber-100 hover:text-amber-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-amber-900/40 dark:hover:text-amber-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                Learning
+            </a>
 
-        <a
-          href="#education"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="school" class="w-4 h-4"></i>
-          Education
-        </a>
+            <a
+                href="#principles"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-teal-100 hover:text-teal-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-teal-900/40 dark:hover:text-teal-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                Principles
+            </a>
 
-        <a
-          href="#connect"
-          class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
-                 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
-                 dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition"
-        >
-          <i data-lucide="link-2" class="w-4 h-4"></i>
-          Connect
-        </a>
-      </nav>
+            <a
+                href="#education"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-sky-100 hover:text-sky-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-sky-900/40 dark:hover:text-sky-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="school" class="w-4 h-4"></i>
+                Education
+            </a>
+
+            <a
+                href="#connect"
+                class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+                    bg-neutral-100 text-neutral-800
+                    hover:bg-rose-100 hover:text-rose-700
+                    dark:bg-neutral-900 dark:text-neutral-200
+                    dark:hover:bg-rose-900/40 dark:hover:text-rose-300
+                    transition-all duration-200"
+            >
+                <i data-lucide="link-2" class="w-4 h-4"></i>
+                Connect
+            </a>
+
+            </nav>
+
 
       <!-- Subtle divider -->
-      <!-- <div class="mt-6 h-px w-full bg-neutral-200/70 dark:bg-neutral-800/70"></div> -->
+      <!-- <div class="mt-3 h-px w-full bg-neutral-200/70 dark:bg-neutral-800/70"></div> -->
+
+
     </div>
 
-    <script>
-      // re-render lucide icons safely
-      try { lucide.createIcons(); } catch (e) {}
-    </script>
   </header>
 
-  <div class="min-h-screen px-6 pt-0 pb-10 max-w-3xl mx-auto">
-
+  <div class="min-h-screen px-6 pt-0 pb-4 max-w-3xl mx-auto">
     <div
       id="outputCanvas"
       class="hidden bg-black font-mono text-sm p-4
@@ -248,7 +388,8 @@
       <pre id="commandOutput" class="text-green-400 whitespace-pre-wrap leading-relaxed"></pre>
     </div>
 
-    <div class="relative w-fit mb-14 mt-16">
+    <div class="relative w-fit mt-8 mb-8">
+
       <div class="absolute -top-4 -right-4 w-56 h-72 rounded-2xl bg-slate-200 rotate-[6deg] shadow-xl dark:bg-slate-800"></div>
       <div class="absolute -top-2 -right-2 w-56 h-72 rounded-2xl bg-blue-200/70 rotate-[2deg] shadow-lg dark:bg-blue-900/30"></div>
 
@@ -426,7 +567,7 @@
 
         <div class="mb-12" id="arsenal">
           <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
-            Technical Arsena
+            Technical Arsenal
           </h2>
 
           <div class="mb-8">
@@ -1156,19 +1297,16 @@
             try { lucide.createIcons(); } catch (e) {}
         }
 
-        // Initialize (mirror your head logic, but ensures dataset + icon are synced)
         const stored = localStorage.getItem("theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const initial = stored ?? (prefersDark ? "dark" : "light");
         applyTheme(initial);
 
-        // Toggle
         btn?.addEventListener("click", () => {
         const current = root.classList.contains("dark") ? "dark" : "light";
         applyTheme(current === "dark" ? "light" : "dark");
         });
 
-        // If system theme changes AND user never explicitly chose, follow system
         const mq = window.matchMedia("(prefers-color-scheme: dark)");
         mq.addEventListener?.("change", (e) => {
         const hasManualChoice = localStorage.getItem("theme");
