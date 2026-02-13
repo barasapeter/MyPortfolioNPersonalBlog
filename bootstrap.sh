@@ -8,42 +8,48 @@ REPO="https://github.com/barasapeter/MyPortfolioNPersonalBlog.git"
 APP_DIR="/home/ubuntu/MyPortfolioNPersonalBlog"
 DB_NAME="portfolio_blog"
 
-# Choose a strong password (or export POSTGRES_PASSWORD before running)
-POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-ChangeMe_StrongPassword}"
+# Provide password at runtime:
+# sudo POSTGRES_PASSWORD='...' ./bootstrap.sh
+POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-}"
 # ==============================
+
+if [[ -z "${POSTGRES_PASSWORD}" ]]; then
+  echo "ERROR: POSTGRES_PASSWORD is empty."
+  echo "Run like: sudo POSTGRES_PASSWORD='SuperStrongPassword' ./bootstrap.sh"
+  exit 1
+fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-echo "==> Updating system packages"
-sudo apt-get update -y
-sudo apt-get upgrade -y
+echo "==> System update"
+apt-get update -y
+apt-get upgrade -y
 
-echo "==> Installing system deps"
-sudo apt-get install -y \
+echo "==> Install packages"
+apt-get install -y \
   git nginx certbot python3-certbot-nginx \
   python3.12-venv build-essential python3-dev libpq-dev \
   postgresql postgresql-contrib \
   libgl1 libglib2.0-0 libsm6 libxrender1 libxext6
 
-echo "==> Cloning repo (or updating if exists)"
-if [ -d "$APP_DIR/.git" ]; then
+echo "==> Clone/update repo"
+if [[ -d "$APP_DIR/.git" ]]; then
   sudo -u ubuntu git -C "$APP_DIR" pull
 else
   sudo -u ubuntu git clone "$REPO" "$APP_DIR"
 fi
 
-echo "==> Creating venv + installing requirements"
+echo "==> venv + requirements"
 sudo -u ubuntu bash -lc "
   cd '$APP_DIR'
   python3 -m venv venv
   source venv/bin/activate
-  pip install --upgrade pip
+  pip install -U pip
   pip install -r requirements.txt
 "
 
-echo "==> Writing .env"
-sudo -u ubuntu bash -lc "cat > '$APP_DIR/.env' << 'EOF'
-# --- your app env here ---
+echo "==> Write .env"
+sudo -u ubuntu bash -lc "cat > '$APP_DIR/.env' <<EOF
 POSTGRES_DB=$DB_NAME
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD
@@ -51,7 +57,7 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 EOF"
 
-echo "==> Configuring Postgres (db + password)"
+echo "==> Postgres: create db + set password (idempotent)"
 sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
 DO \$\$
 BEGIN
@@ -64,10 +70,10 @@ END
 ALTER USER postgres WITH PASSWORD '$POSTGRES_PASSWORD';
 SQL
 
-echo "==> Creating systemd service"
-sudo tee /etc/systemd/system/fastapi.service > /dev/null <<EOF
+echo "==> systemd service"
+tee /etc/systemd/system/fastapi.service > /dev/null <<EOF
 [Unit]
-Description=FastAPI app (gunicorn + uvicorn worker)
+Description=FastAPI app (gunicorn)
 After=network.target postgresql.service
 
 [Service]
@@ -82,11 +88,11 @@ RestartSec=3
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable --now fastapi
+systemctl daemon-reload
+systemctl enable --now fastapi
 
-echo "==> Nginx site config"
-sudo tee /etc/nginx/sites-available/fastapi > /dev/null <<EOF
+echo "==> nginx config"
+tee /etc/nginx/sites-available/fastapi > /dev/null <<EOF
 server {
     server_name $DOMAIN www.$DOMAIN;
 
@@ -100,18 +106,20 @@ server {
 }
 EOF
 
-sudo ln -sf /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
-sudo nginx -t
-sudo systemctl restart nginx
+ln -sf /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
+nginx -t
+systemctl restart nginx
 
-echo "==> TLS with certbot (requires DNS already pointing to this instance)"
-sudo certbot --nginx \
+echo "==> HTTPS (requires DNS already pointing to this instance)"
+certbot --nginx \
   -d "$DOMAIN" -d "www.$DOMAIN" \
-  --non-interactive --agree-tos -m "$EMAIL" --redirect
+  --non-interactive --agree-tos -m "$EMAIL" --redirect || true
 
-echo "==> Certbot auto-renew timer status"
-sudo systemctl status certbot.timer --no-pager || true
+echo "==> certbot timer"
+systemctl status certbot.timer --no-pager || true
 
-echo "✅ Done. Check:"
-echo "   - sudo systemctl status fastapi --no-pager"
-echo "   - curl -I https://$DOMAIN"
+echo "✅ Done."
+echo "Check:"
+echo "  systemctl status fastapi --no-pager"
+echo "  curl -I http://$DOMAIN"
+echo "  curl -I https://$DOMAIN"
