@@ -18,33 +18,155 @@
 </head>
 
 <body class="bg-white text-gray-900 antialiased">
-    <div class="min-h-screen px-6 py-10 max-w-3xl mx-auto">
+        <header class="py-5">
+            <div class="mx-auto max-w-3xl px-6">
+                <div class="flex items-center justify-between gap-4">
+                
+                <!-- BRAND CONTAINER -->
+                <div class="flex items-center justify-between">
 
-        <div class="flex items-center justify-between mb-8">
-            <div id="terminal-wrapper" class="hidden lg:block">
-                <div id="terminal" tabindex="0">
-                    <span class="prompt font-extrabold">guest@portfolio:~$ </span>
-                    <span id="input-container">
-                        <span id="input" class="input"></span>
-                        <span class="cursor font-extrabold"></span>
-                        <span id="placeholder" class="placeholder"></span>
-                    </span>
+                    <!-- Mobile Brand -->
+                    <a href="/"
+                    class="lg:hidden group inline-flex items-baseline gap-2">
+
+                        <span class="text-sm font-semibold text-neutral-500 dark:text-neutral-400">
+                            Call me
+                        </span>
+
+                        <span class="text-xl font-black tracking-tight
+                                    text-neutral-900 dark:text-neutral-100
+                                    group-hover:text-brand-600
+                                    transition-colors duration-200">
+                            "barasa"
+                        </span>
+                    </a>
+
+
+                    <!-- Brand show only if on desktop -->
+                    <div class="flex items-center justify-between">
+                        <div id="terminal-wrapper" class="hidden lg:block">
+                            <div id="terminal" tabindex="0">
+                            <span class="prompt font-extrabold">guest@portfolio:~$ </span>
+                            <span id="input-container">
+                                <span id="input" class="input"></span>
+                                <span class="cursor font-extrabold"></span>
+                                <span id="placeholder" class="placeholder"></span>
+                            </span>
+                            </div>
+                            <input id="hiddenInput" autocomplete="off" />
+                        </div>
+                    </div>
+
+
                 </div>
-                <input id="hiddenInput" autocomplete="off" />
+
+
+
+                <!-- Primary actions: always visible (Blog + Projects) -->
+                <div class="flex items-center gap-2">
+                    <a href="#projects"
+                    class="inline-flex items-center gap-2 rounded-xl border border-brand-600/25 bg-brand-600/10
+                            px-3.5 py-2 text-sm font-extrabold text-brand-700
+                            hover:bg-brand-600/15 transition
+                            dark:text-brand-300">
+                    <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+                    Projects
+                    </a>
+
+                    <a href="/blog" class="group inline-flex items-center gap-2
+                        rounded-lg border border-[#00A651]/20
+                        bg-[#00A651]/5 px-4 py-2
+                        text-sm font-medium text-[#00A651]
+                        hover:bg-[#00A651]/10
+                        transition">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    Blog
+                </a>
+                </div>
+                </div>
+
+                <!-- Secondary nav: always visible, compact, iconed -->
+                <nav class="mt-5 flex flex-wrap items-center gap-2">
+                <a href="#arsenal"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="wrench" class="w-4 h-4"></i>
+                    Skills
+                </a>
+
+                <a href="#impact"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="target" class="w-4 h-4"></i>
+                    Impact
+                </a>
+
+                <a href="#philosophy"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    Philosophy
+                </a>
+
+                <a href="#domain"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                    FinTech
+                </a>
+
+                <a href="#learning"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                    Learning
+                </a>
+
+                <a href="#principles"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    Principles
+                </a>
+
+                <a href="#education"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="school" class="w-4 h-4"></i>
+                    Education
+                </a>
+
+                <a href="#connect"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                            text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                            dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                    <i data-lucide="link-2" class="w-4 h-4"></i>
+                    Connect
+                </a>
+                </nav>
+
+                <!-- Subtle divider -->
+                <!-- <div class="mt-6 h-px w-full bg-neutral-200/70 dark:bg-neutral-800/70"></div> -->
             </div>
+            <script>
+                // re-render lucide icons safely
+                try { lucide.createIcons(); } catch (e) {}
+            </script>
+        </header>
+
+    <div class="min-h-screen px-6 pt-0 pb-10 max-w-3xl mx-auto">
+
+  
 
 
-            <a href="/blog" class="group inline-flex items-center gap-2
-          rounded-lg border border-[#00A651]/20
-          bg-[#00A651]/5 px-4 py-2
-          text-sm font-medium text-[#00A651]
-          hover:bg-[#00A651]/10
-          transition">
-                <i data-lucide="book-open" class="w-4 h-4"></i>
-                Blog
-            </a>
-
-        </div>
+        
 
         <div id="outputCanvas" class="hidden bg-black text-green-400 font-mono text-sm p-4
             border border-green-500/40
@@ -78,7 +200,7 @@
             <section class="max-w-5xl mx-auto bg-white">
                 <div class="mb-6 border-b border-gray-200 pb-4">
                     <h1 class="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
-                        I'm <span class="font-bold text-gray-600">PETER BARASA</span>
+                        I'm <span class="text-neutral-500 dark:text-neutral-300">PETER BARASA</span>
                     </h1>
 
                     <p class="text-lg text-gray-600 font-medium mb-2">
@@ -102,9 +224,9 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                        My Engineering Philosophy
-                    </h2>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                My Engineering Philosophy
+                            </h2>
                     <div class="bg-slate-50 border-l-4 border-slate-900 p-6 mb-6 shadow-sm">
                         <p class="text-slate-700 leading-relaxed mb-4">
                             I design and engineer mission-critical financial technology systems where
@@ -155,13 +277,15 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 pb-3">
                         Target Impact Areas
                     </h2>
+
                     <p class="text-gray-700 mb-4">I've worked in:</p>
+
                     <div class="grid md:grid-cols-2 gap-3">
-                        <div class="border border-gray-200 px-4 py-3 text-sm text-gray-700">System Design - Senior
-                            Software Architecture
+                        <div class="border border-gray-200 px-4 py-3 text-sm text-gray-700">System Design as Senior Architect
+                
                         </div>
                         <div class="border border-gray-200 px-4 py-3 text-sm text-gray-700">Cloud Native Architecture
                         </div>
@@ -172,7 +296,7 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
                         Architecture & System Design Expertise
                     </h2>
 
@@ -229,7 +353,7 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
                         Technical Arsenal
                     </h2>
 
@@ -574,7 +698,7 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
                         Featured Projects & Implementations
                     </h2>
 
@@ -740,15 +864,15 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
-                        Continuous Learning & Certifications
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                        Continuous Learning and Certifications
                     </h2>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="border border-gray-300 p-5">
                             <h3 class="font-bold text-gray-900 mb-3 bg-gray-50 px-3 py-2">Pursuing (2025)</h3>
                             <div class="space-y-2 text-sm text-gray-700">
-                                <p>• AWS Certified Solutions Architect – Professional</p>
+                                <p>• AWS Certified Solutions Architect (Professional)</p>
                                 <p>• Certified Information Systems Security Professional (CISSP)</p>
                                 <p>• TOGAF 9 Certified (Enterprise Architecture)</p>
                                 <p>• Certified Kubernetes Administrator (CKA)</p>
@@ -768,15 +892,15 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
-                        Domain Expertise: FinTech & Payments
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                        Domain Expertise - FinTech and Payments
                     </h2>
 
                     <div class="border border-gray-300 p-6">
                         <h3 class="font-bold text-gray-900 mb-3">Understanding of:</h3>
                         <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
                             <div class="space-y-2">
-                                <p>• Mobile money ecosystems (M-Pesa, Airtel Money architecture)</p>
+                                <p>• Mobile money ecosystems (M-Pesa Daraja APIs, Airtel Money and M-Banking architecture)</p>
                                 <p>• Payment gateway integrations (Stripe, Flutterwave, Paystack)</p>
                                 <p>• Transaction lifecycle management</p>
                                 <p>• Fraud detection patterns</p>
@@ -796,7 +920,7 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
                         Engineering Principles
                     </h2>
 
@@ -841,8 +965,8 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
-                        Education & Background
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                        Education and Background
                     </h2>
 
                     <div class="border border-gray-300 p-6">
@@ -862,8 +986,8 @@
                 </div>
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">
-                        Let's Connect
+                    <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                        Reach me Out
                     </h2>
 
                     <div class="border-2 border-gray-900 p-6">

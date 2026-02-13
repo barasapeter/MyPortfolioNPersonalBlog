@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peter barasa</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
+
+    <!-- Keep your existing CSS file (data unchanged; just improved layout around it) -->
+    <link rel="stylesheet" href="/static/css/index.css">
+
+    <!-- Optional: Tailwind config to match the blog aesthetics -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    boxShadow: {
+                        soft: "0 8px 30px rgba(0,0,0,0.08)",
+                    },
+                    colors: {
+                        brand: {
+                            50: "#ecfdf5",
+                            100: "#d1fae5",
+                            200: "#a7f3d0",
+                            300: "#6ee7b7",
+                            400: "#34d399",
+                            500: "#10b981",
+                            600: "#059669",
+                            700: "#047857",
+                            800: "#065f46",
+                            900: "#064e3b",
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Subtle “publication” background + consistent spacing, without changing your content */
+        .gradient-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(16,185,129,.55), transparent);
+        }
+    </style>
+
+    <script>
+        // Theme (same style as blog template)
+        (function () {
+            const saved = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const theme = saved || (prefersDark ? "dark" : "light");
+            document.documentElement.classList.toggle("dark", theme === "dark");
+        })();
+    </script>
+</head>
+
+<body class="bg-neutral-50 text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+    <!-- Top progress line (purely UI, no data change) -->
+    <div class="fixed top-0 left-0 right-0 z-50 h-1 bg-transparent">
+        <div id="progressBar" class="h-1 w-0 bg-brand-500"></div>
+    </div>
+
+    <header class="py-8">
+        <div class="mx-auto max-w-3xl px-6">
+            <div class="flex items-center justify-between gap-4">
+            <!-- Brand -->
+            <a href="/" class="group inline-flex items-baseline gap-2">
+                <span class="text-sm font-semibold text-neutral-500 dark:text-neutral-400">Peter</span>
+                <span class="text-xl font-black tracking-tight text-neutral-900 dark:text-neutral-100 group-hover:text-brand-600 transition">
+                barasa
+                </span>
+            </a>
+
+            <!-- Primary actions: always visible (Blog + Projects) -->
+            <div class="flex items-center gap-2">
+                <a href="#projects"
+                class="inline-flex items-center gap-2 rounded-xl border border-brand-600/25 bg-brand-600/10
+                        px-3.5 py-2 text-sm font-extrabold text-brand-700
+                        hover:bg-brand-600/15 transition
+                        dark:text-brand-300">
+                <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+                Projects
+                </a>
+
+                <a href="/blog"
+                class="inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white
+                        px-3.5 py-2 text-sm font-extrabold text-neutral-800
+                        hover:bg-neutral-50 transition
+                        dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                Blog
+                </a>
+            </div>
+            </div>
+
+            <!-- Secondary nav: always visible, compact, iconed -->
+            <nav class="mt-5 flex flex-wrap items-center gap-2">
+            <a href="#arsenal"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="wrench" class="w-4 h-4"></i>
+                Skills
+            </a>
+
+            <a href="#impact"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="target" class="w-4 h-4"></i>
+                Impact
+            </a>
+
+            <a href="#philosophy"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                Philosophy
+            </a>
+
+            <a href="#domain"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                FinTech
+            </a>
+
+            <a href="#learning"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                Learning
+            </a>
+
+            <a href="#principles"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                Principles
+            </a>
+
+            <a href="#education"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="school" class="w-4 h-4"></i>
+                Education
+            </a>
+
+            <a href="#connect"
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold
+                        text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100
+                        dark:text-neutral-300 dark:hover:text-neutral-100 dark:hover:bg-neutral-900 transition">
+                <i data-lucide="link-2" class="w-4 h-4"></i>
+                Connect
+            </a>
+            </nav>
+
+            <!-- Subtle divider -->
+            <div class="mt-6 h-px w-full bg-neutral-200/70 dark:bg-neutral-800/70"></div>
+        </div>
+        <script>
+            // re-render lucide icons safely
+            try { lucide.createIcons(); } catch (e) {}
+        </script>
+    </header>
+
+    
+
+    <!-- Page -->
+    <div class="min-h-screen">
+        <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <!-- Top section: terminal + portrait + intro -->
+            <section class="pt-10 pb-6">
+                <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
+                    <!-- Left: hero + terminal -->
+                    <div class="lg:col-span-7">
+
+                        <h1 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+                            I'm <span class="text-neutral-600 dark:text-neutral-300">PETER BARASA</span>
+                        </h1>
+
+                        <p class="mt-3 text-neutral-600 dark:text-neutral-300">
+                            Building scalable, secure, cloud-native fintech and SaaS systems.
+                        </p>
+
+                        <!-- Terminal wrapper (same IDs/markup kept, just placed in a card shell) -->
+                        <div class="mt-6 rounded-3xl border border-neutral-200 bg-white p-4 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+                                    Interactive terminal
+                                </div>
+                                <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                                    Tip: click and type
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <div id="terminal-wrapper" class="hidden lg:block">
+                                    <div id="terminal" tabindex="0" class="rounded-2xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/40">
+                                        <span class="prompt font-extrabold">guest@portfolio:~$ </span>
+                                        <span id="input-container">
+                                            <span id="input" class="input"></span>
+                                            <span class="cursor font-extrabold"></span>
+                                            <span id="placeholder" class="placeholder"></span>
+                                        </span>
+                                    </div>
+                                    <input id="hiddenInput" autocomplete="off" />
+                                </div>
+
+                                <!-- Your existing output canvas unchanged (only wrapped) -->
+                                <div id="outputCanvas" class="hidden bg-black text-green-400 font-mono text-sm p-4
+                                    border border-green-500/40
+                                    shadow-[0_0_12px_rgba(34,197,94,0.25)]
+                                    mt-4 max-w-3xl rounded-2xl">
+                                    <div class="flex gap-2 mb-2">
+                                        <span class="text-green-500">$</span>
+                                        <span id="userInputEcho" class="text-green-300"></span>
+                                    </div>
+                                    <pre id="commandOutput" class="text-green-400 whitespace-pre-wrap leading-relaxed"></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hi row (same content) -->
+                        <div class="mt-6">
+                            <p class="text-base flex items-center gap-2 font-semibold text-neutral-900 dark:text-neutral-100">
+                                <span class="font-bold">Hi!</span>
+                                <i data-lucide="hand" class="w-5 h-5 text-neutral-600 dark:text-neutral-300"></i>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: portrait (same image, upgraded framing only) -->
+                    <div class="lg:col-span-5">
+                        <div class="relative w-fit mx-auto lg:mx-0">
+                            <div class="absolute -top-4 -right-4 w-56 h-72 rounded-3xl bg-neutral-200 rotate-[6deg] shadow-xl dark:bg-neutral-800"></div>
+                            <div class="absolute -top-2 -right-2 w-56 h-72 rounded-3xl bg-brand-200/60 rotate-[2deg] shadow-lg dark:bg-brand-900/25"></div>
+                            <img src="/static/images/me.jpeg" alt="Portrait" class="relative w-56 h-72 object-cover rounded-3xl shadow-2xl ring-1 ring-black/5" />
+                        </div>
+
+                        <!-- Quick TL;DR card (same text, moved into a “publication” card) -->
+                        <div class="mt-8 rounded-3xl border border-neutral-200 bg-white p-6 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <p class="text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2 font-semibold">
+                                TL;DR for Humans
+                            </p>
+                            <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-base">
+                                I design and build high-performance backend systems, cloud infrastructure,
+                                and DevOps pipelines with a strong focus on security, scalability, reliability
+                                and cost optimization.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="gradient-line"></div>
+
+            <!-- Content area: same sections, upgraded to “cards + rail” layout -->
+            <section class="py-10">
+                <div class="grid gap-8 lg:grid-cols-12">
+                    <!-- Main column -->
+                    <div class="lg:col-span-8 space-y-8">
+
+                        <!-- My Engineering Philosophy -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                My Engineering Philosophy
+                            </h2>
+
+                            <div class="mt-5 rounded-2xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900/40">
+                                <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+                                    I design and engineer mission-critical financial technology systems where
+                                    <span class="font-semibold text-neutral-900 dark:text-neutral-100">99.99% uptime is the baseline, not the objective</span>.
+                                    My work focuses on rigorous architectural standards, including microservices-driven system design
+                                    and the implementation of secure, observable, and scalable DevSecOps pipelines.
+                                </p>
+                            </div>
+
+                            <p class="mt-6 text-neutral-800 dark:text-neutral-200 font-semibold mb-4">My motivation is to create architectures for:</p>
+
+                            <div class="space-y-3">
+                                <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+                                        Infrastructure that can earn and support millions of user requests with less than 1
+                                        second delay.
+                                    </p>
+                                </div>
+                                <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+                                        Cloud technology that can be used without having to change the current system if it
+                                        needs to grow in size.
+                                    </p>
+                                </div>
+                                <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+                                        Security and privacy plans that use the most up-to-date standards as identified by
+                                        <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-xs font-mono text-neutral-800 dark:text-neutral-200">PCI-DSS</code>,
+                                        <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-xs font-mono text-neutral-800 dark:text-neutral-200">KYC/AML</code>,
+                                        and <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-xs font-mono text-neutral-800 dark:text-neutral-200">ISO 27001</code>.
+                                    </p>
+                                </div>
+                                <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+                                        Systems that have capabilities to monitor themselves so that potential problems will be
+                                        discovered before a customer experiences them.
+                                    </p>
+                                </div>
+                                <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+                                        Provide teams with tools that allow them to write infrastructure code and create a
+                                        workflow to deploy it using GitOps.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Target Impact Areas -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Target Impact Areas
+                            </h2>
+                            <p class="mt-4 text-neutral-700 dark:text-neutral-300">I've worked in:</p>
+
+                            <div class="mt-4 grid md:grid-cols-2 gap-3">
+                                <div class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 dark:border-neutral-800">System Design - Senior Software Architecture</div>
+                                <div class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 dark:border-neutral-800">Cloud Native Architecture</div>
+                                <div class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 dark:border-neutral-800">DevSecOps Engineering</div>
+                                <div class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 dark:border-neutral-800">Backend Engineering</div>
+                                <div class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 dark:border-neutral-800">Platform Engineering</div>
+                            </div>
+                        </div>
+
+                        <!-- Architecture & System Design Expertise -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Architecture & System Design Expertise
+                            </h2>
+
+                            <div class="mt-6 space-y-6">
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">
+                                        Cloud-Native Architecture
+                                    </h3>
+                                    <div class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                        <p>• Microservices orchestration with service mesh patterns <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">Istio, Linkerd</code></p>
+                                        <p>• Event-driven architectures using <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">Kafka, RabbitMQ, AWS EventBridge</code></p>
+                                        <p>• API gateway patterns with rate limiting, circuit breakers, retry logic</p>
+                                        <p>• Backend-for-Frontend (BFF) patterns for mobile-first experiences</p>
+                                        <p>• Serverless architectures leveraging <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">Lambda, Step Functions, API Gateway</code></p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">
+                                        Mobile-Backend Integration
+                                    </h3>
+                                    <div class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                        <p>• Super app architecture design (mini-app frameworks, SDK integration)</p>
+                                        <p>• Mobile-first APIs with <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">GraphQL, gRPC, REST</code> optimized for low-bandwidth environments</p>
+                                        <p>• Session resilience and offline-first synchronization patterns</p>
+                                        <p>• Device attestation and secure mobile authentication flows</p>
+                                        <p>• Real-user monitoring (RUM) and mobile crash analytics integration</p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">
+                                        Security & Compliance
+                                    </h3>
+                                    <div class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                        <p>• Zero Trust architecture implementation (identity-based perimeter, least privilege)</p>
+                                        <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">OAuth2/OIDC</code> flows, JWT lifecycle management, API key rotation</p>
+                                        <p>• Secrets management with <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">HashiCorp Vault, AWS Secrets Manager</code></p>
+                                        <p>• Penetration testing mindset: threat modeling, secure coding, <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">OWASP Top 10</code></p>
+                                        <p>• FinTech compliance: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">PCI-DSS</code> controls, <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">KYC/AML</code> data handling, <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">GDPR</code> privacy by design</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Technical Arsenal -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Technical Arsenal
+                            </h2>
+
+                            <!-- Cloud Platforms & Infrastructure -->
+                            <div class="mt-6">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    Cloud Platforms & Infrastructure
+                                </h3>
+
+                                <div class="mt-4 space-y-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                        <div class="flex items-center mb-2">
+                                            <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100">AWS</h4>
+                                            <span class="ml-3 text-xs bg-neutral-900 text-white px-2 py-1 font-mono rounded-lg dark:bg-white dark:text-neutral-900">PRIMARY</span>
+                                        </div>
+                                        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-2 font-mono text-xs">
+                                            EC2, ECS/EKS, Lambda, S3, RDS, DynamoDB, CloudWatch, API Gateway
+                                        </p>
+                                        <div class="pl-4 space-y-1 text-sm text-neutral-700 dark:text-neutral-300 border-l-2 border-neutral-200 dark:border-neutral-800">
+                                            <p>Designing multi-AZ, fault-tolerant architectures</p>
+                                            <p>Cost optimization through right-sizing and reserved capacity</p>
+                                            <p>Security groups, IAM policies, VPC design</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Azure</h4>
+                                        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-2 font-mono text-xs">
+                                            IAM, Security Groups, VPC, WAF, CSPM, Cloud Workload Protection
+                                        </p>
+                                        <div class="pl-4 space-y-1 text-sm text-neutral-700 dark:text-neutral-300 border-l-2 border-neutral-200 dark:border-neutral-800">
+                                            <p>Shared responsibility model implementation</p>
+                                            <p>Privileged Access Management (PAM)</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Infrastructure as Code</h4>
+                                        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-2 font-mono text-xs">Terraform, Pulumi, CloudFormation</p>
+                                        <div class="pl-4 space-y-1 text-sm text-neutral-700 dark:text-neutral-300 border-l-2 border-neutral-200 dark:border-neutral-800">
+                                            <p>Modularized, reusable IaC templates</p>
+                                            <p>State management and drift detection</p>
+                                            <p>Multi-environment provisioning (dev/staging/prod)</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Containerization</h4>
+                                        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-2 font-mono text-xs">Docker, Kubernetes (EKS, OpenShift), Helm</p>
+                                        <div class="pl-4 space-y-1 text-sm text-neutral-700 dark:text-neutral-300 border-l-2 border-neutral-200 dark:border-neutral-800">
+                                            <p>Deployment strategies: blue-green, canary, rolling updates</p>
+                                            <p>Resource optimization and auto-scaling policies</p>
+                                            <p>Service mesh integration for observability</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Backend Engineering & APIs -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    Backend Engineering & APIs
+                                </h3>
+
+                                <div class="mt-4 grid md:grid-cols-2 gap-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Java Ecosystem</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Spring Boot, Spring Cloud, Hibernate</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• RESTful microservices with circuit breakers</p>
+                                            <p>• Async processing with Spring WebFlux</p>
+                                            <p>• Transaction management across distributed systems</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Python Stack</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">FastAPI, Django, Flask, Tornado</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• High-performance async APIs (10k+ req/sec)</p>
+                                            <p>• Background task processing with Celery, Redis</p>
+                                            <p>• ML model serving with FastAPI</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Node.js</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Express, NestJS</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Real-time features with WebSockets, SSE</p>
+                                            <p>• Middleware-based auth/authorization</p>
+                                            <p>• Event-driven architectures with message queues</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Performance Engineering</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Go, Rust (learning)</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Low-latency microservices for payments</p>
+                                            <p>• gRPC for inter-service communication</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                    <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">API Design</h4>
+                                    <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-2 font-mono text-xs">REST, GraphQL (Apollo), gRPC, OpenAPI/Swagger</p>
+                                    <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                        <p>• API versioning strategies, backward compatibility</p>
+                                        <p>• Rate limiting, throttling, and quota management</p>
+                                        <p>• Comprehensive documentation with code examples</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Databases & Data Layers -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    Databases & Data Layers
+                                </h3>
+
+                                <div class="mt-4 grid md:grid-cols-2 gap-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">PostgreSQL</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2">Advanced SQL, indexing strategies, stored procedures</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Query optimization for high-transaction systems</p>
+                                            <p>Replication (master-slave, multi-master)</p>
+                                            <p>JSONB for semi-structured data</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">NoSQL</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">MongoDB, DynamoDB, Cassandra</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Schema design for horizontal scalability</p>
+                                            <p>Partition key strategies for DynamoDB</p>
+                                            <p>Change Data Capture (CDC) patterns</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Caching & Real-Time</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Redis, Memcached</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Cache invalidation strategies (TTL, event-based)</p>
+                                            <p>Pub/sub for real-time notifications</p>
+                                            <p>Session management and rate limiting</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Messaging Systems</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Kafka, RabbitMQ, AWS SQS/SNS</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Event sourcing and CQRS patterns</p>
+                                            <p>Dead letter queues and retry mechanisms</p>
+                                            <p>Exactly-once delivery guarantees</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DevSecOps & CI/CD -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    DevSecOps & CI/CD
+                                </h3>
+
+                                <div class="mt-4 space-y-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">CI/CD Pipelines</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">GitHub Actions, GitLab CI, Jenkins, Tekton</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Multi-stage builds (test → security scan → deploy)</p>
+                                            <p>• Automated rollback on deployment failures</p>
+                                            <p>• Feature flagging for progressive rollouts</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Security Automation</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">SonarQube, Checkmarx</code> for code quality & vulnerability scanning</p>
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Snyk, Trivy</code> for container image scanning</p>
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">OWASP Dependency-Check</code> for supply chain security</p>
+                                            <p>• Automated secrets scanning <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">git-secrets, TruffleHog</code></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">GitOps</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">FluxCD, ArgoCD</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Declarative infrastructure management</p>
+                                            <p>• Automated sync from Git → Kubernetes</p>
+                                            <p>• Environment promotion workflows</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Linux Administration</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Ubuntu, RHEL, CentOS</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Shell scripting (Bash, Python, Groovy)</p>
+                                            <p>• System hardening, firewall rules (iptables, firewalld)</p>
+                                            <p>• Process monitoring and performance tuning</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Observability & Site Reliability -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    Observability & Site Reliability
+                                </h3>
+
+                                <div class="mt-4 grid md:grid-cols-2 gap-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Metrics</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">Prometheus, Grafana, Datadog, New Relic, Dynatrace</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Custom metrics and alerting rules</p>
+                                            <p>SLI/SLO/SLA definition and tracking</p>
+                                            <p>Business metrics dashboards</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Logging</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">ELK Stack, Splunk</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Centralized log aggregation</p>
+                                            <p>Log correlation for distributed tracing</p>
+                                            <p>Anomaly detection with ML-powered alerts</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Distributed Tracing</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2 font-mono">OpenTelemetry, Jaeger, Zipkin</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>Request flow visualization across microservices</p>
+                                            <p>Latency bottleneck identification</p>
+                                            <p>Context propagation in async systems</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">AIOps</h4>
+                                        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-2">Machine Learning for operations</p>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 border-l-2 border-neutral-200 dark:border-neutral-800 pl-3">
+                                            <p>ML for RCA, anomaly detection</p>
+                                            <p>Classification/clustering for log analysis</p>
+                                            <p>Automated incident correlation</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security & Identity Management -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    Security & Identity Management
+                                </h3>
+
+                                <div class="mt-4 space-y-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Authentication & Authorization</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">OAuth2/OIDC, SAML, JWT, API Keys</code></p>
+                                            <p>• Role-Based Access Control (RBAC), Attribute-Based (ABAC)</p>
+                                            <p>• Multi-factor authentication (MFA) integration</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Security Tools</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Firewalls: Next-Gen <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Palo Alto, Fortinet</code>, <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">AWS WAF</code></p>
+                                            <p>• IDS/IPS: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Snort, Suricata</code></p>
+                                            <p>• PAM: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">CyberArk, BeyondTrust</code></p>
+                                            <p>• Vulnerability scanners: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Nessus, Qualys, OpenVAS</code></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Compliance & Governance</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">ISO 27001, NIST Framework, CIS Controls</code></p>
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">PCI-DSS</code> payment security standards</p>
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">GDPR</code> data protection principles</p>
+                                            <p>• Audit trail logging and evidence collection</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI/ML Integration -->
+                            <div class="mt-10">
+                                <h3 class="text-xl font-extrabold text-neutral-900 dark:text-neutral-100 rounded-2xl bg-neutral-900 text-white px-4 py-3 dark:bg-white dark:text-neutral-900">
+                                    AI/ML Integration
+                                </h3>
+
+                                <div class="mt-4 grid md:grid-cols-2 gap-4">
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Model Deployment</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">OpenAI APIs, Hugging Face Transformers</code></p>
+                                            <p>• <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">TensorFlow Serving, TorchServe, ONNX Runtime</code></p>
+                                            <p>• Model versioning and A/B testing</p>
+                                            <p>• ML-powered features: fraud detection, chatbots, recommendations</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+                                        <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">ML for Operations</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                            <p>• Predictive scaling based on traffic patterns</p>
+                                            <p>• Anomaly detection in system metrics</p>
+                                            <p>• Automated incident classification</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Featured Projects & Implementations -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Featured Projects & Implementations
+                            </h2>
+
+                            <div class="mt-6 space-y-6">
+                                <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                    <div class="flex items-start justify-between mb-3 gap-3">
+                                        <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100">Enterprise FinTech Authentication Service</h3>
+                                        <span class="bg-neutral-900 text-white text-xs px-3 py-1 font-mono rounded-lg dark:bg-white dark:text-neutral-900">IN DEVELOPMENT</span>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Production-grade authentication for systems handling 100k+ daily active users</p>
+
+                                    <div class="mb-4">
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Architecture</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Spring Boot microservice with <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">JWT + OAuth2</code> flows</p>
+                                            <p>• PostgreSQL with row-level security for multi-tenancy</p>
+                                            <p>• Redis for token blacklisting and session management</p>
+                                            <p>• AWS ECS Fargate deployment behind Application Load Balancer</p>
+                                            <p>• Nginx reverse proxy with SSL termination</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Security Features</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Device fingerprinting and anomaly detection</p>
+                                            <p>• Rate limiting per user/IP (100 req/min)</p>
+                                            <p>• Audit logs for all authentication events</p>
+                                            <p>• Compliance with PCI-DSS password policies</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Observability</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Prometheus metrics (login success rate, latency p95/p99)</p>
+                                            <p>• Distributed tracing with OpenTelemetry</p>
+                                            <p>• Grafana dashboards for real-time monitoring</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                    <div class="flex items-start justify-between mb-3 gap-3">
+                                        <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100">Cloud-Native E-Commerce Platform</h3>
+                                        <span class="bg-neutral-900 text-white text-xs px-3 py-1 font-mono rounded-lg dark:bg-white dark:text-neutral-900">70% COMPLETE</span>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Scalable microservices architecture demonstrating DevOps excellence</p>
+
+                                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Tech Stack</h4>
+                                            <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                                <p>• Backend: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Python (FastAPI), Node.js (NestJS), Java (Spring Boot)</code></p>
+                                                <p>• Database: PostgreSQL (orders), MongoDB (catalog), Redis (cart/sessions)</p>
+                                                <p>• Messaging: RabbitMQ for async order processing</p>
+                                                <p>• Infrastructure: Terraform → AWS EKS + RDS + ElastiCache</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">DevOps Pipeline</h4>
+                                            <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                                <p>• GitHub Actions for CI/CD</p>
+                                                <p>• Blue-green deployments with automatic rollback</p>
+                                                <p>• Infrastructure drift detection</p>
+                                                <p>• Cost tracking per environment ($150/month for staging)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Observability Stack</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Prometheus + Grafana for metrics | ELK Stack for centralized logging | Jaeger for distributed tracing</p>
+                                            <p>• Custom SLO tracking (99.9% uptime, &lt;500ms p95 latency)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                    <div class="flex items-start justify-between mb-3 gap-3">
+                                        <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100">Production Observability Platform</h3>
+                                        <span class="bg-neutral-900 text-white text-xs px-3 py-1 font-mono rounded-lg dark:bg-white dark:text-neutral-900">60% COMPLETE</span>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">End-to-end monitoring solution for microservices environments</p>
+
+                                    <div class="mb-4">
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Components</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Metrics: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Prometheus</code> with custom exporters</p>
+                                            <p>• Visualization: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Grafana</code> with 15+ pre-built dashboards</p>
+                                            <p>• Logging: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">Elasticsearch + Logstash + Kibana</code></p>
+                                            <p>• Alerting: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">AlertManager</code> → Slack/PagerDuty integration</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Features</h4>
+                                        <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1 pl-3">
+                                            <p>• Automatic service discovery in Kubernetes</p>
+                                            <p>• Pre-configured alerts (CPU/Memory/Disk, API errors, database connections)</p>
+                                            <p>• Log correlation with trace IDs</p>
+                                            <p>• Cost analysis dashboards (AWS CloudWatch costs per service)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                    <div class="flex items-start justify-between mb-3 gap-3">
+                                        <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100">DevSecOps Pipeline Template</h3>
+                                        <span class="bg-neutral-900 text-white text-xs px-3 py-1 font-mono rounded-lg dark:bg-white dark:text-neutral-900">READY</span>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Reusable CI/CD pipeline with security-first approach</p>
+
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Pipeline Stages</h4>
+                                            <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                                <p>1. Build: Multi-stage Docker builds</p>
+                                                <p>2. Test: Unit, integration, contract tests</p>
+                                                <p>3. Security: SonarQube, Snyk, secrets detection</p>
+                                                <p>4. Deploy: Kubernetes rolling update</p>
+                                                <p>5. Verify: Smoke tests, rollback on failure</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-bold text-neutral-900 dark:text-neutral-100 text-sm mb-2 border-b border-neutral-200 pb-1 dark:border-neutral-800">Security Gates</h4>
+                                            <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
+                                                <p>• No critical/high vulnerabilities in production</p>
+                                                <p>• Code coverage &gt;80% required</p>
+                                                <p>• OWASP dependency scan pass</p>
+                                                <p class="mt-2">Tools: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded font-mono">GitHub Actions, SonarQube, Trivy, ArgoCD</code></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Continuous Learning & Certifications -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Continuous Learning & Certifications
+                            </h2>
+
+                            <div class="mt-6 grid md:grid-cols-2 gap-6">
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3 bg-neutral-50 dark:bg-neutral-900/40 px-3 py-2 rounded-xl">Pursuing (2025)</h3>
+                                    <div class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                        <p>• AWS Certified Solutions Architect – Professional</p>
+                                        <p>• Certified Information Systems Security Professional (CISSP)</p>
+                                        <p>• TOGAF 9 Certified (Enterprise Architecture)</p>
+                                        <p>• Certified Kubernetes Administrator (CKA)</p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3 bg-neutral-50 dark:bg-neutral-900/40 px-3 py-2 rounded-xl">Active Learning</h3>
+                                    <div class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                        <p>• SAFe Agile Framework (for enterprise architecture roles)</p>
+                                        <p>• Rust for high-performance microservices</p>
+                                        <p>• Advanced Kubernetes patterns (service mesh, multi-cluster)</p>
+                                        <p>• FinTech regulations (PSD2, Open Banking standards)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Domain Expertise: FinTech & Payments -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Domain Expertise: FinTech & Payments
+                            </h2>
+
+                            <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">Understanding of:</h3>
+                                <div class="grid md:grid-cols-2 gap-4 text-sm text-neutral-700 dark:text-neutral-300">
+                                    <div class="space-y-2">
+                                        <p>• Mobile money ecosystems (M-Pesa, Airtel Money architecture)</p>
+                                        <p>• Payment gateway integrations (Stripe, Flutterwave, Paystack)</p>
+                                        <p>• Transaction lifecycle management</p>
+                                        <p>• Fraud detection patterns</p>
+                                        <p>• Regulatory compliance: <code class="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded text-xs font-mono">KYC/AML, PCI-DSS, GDPR</code></p>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <p class="font-semibold text-neutral-900 dark:text-neutral-100">Business Context:</p>
+                                        <p>• East African market dynamics (mobile-first, low bandwidth)</p>
+                                        <p>• Super app strategies (financial services + commerce + utilities)</p>
+                                        <p>• Agent network management for cash-in/cash-out</p>
+                                        <p>• Cross-border remittance systems</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Engineering Principles -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Engineering Principles
+                            </h2>
+
+                            <div class="mt-6 grid md:grid-cols-3 gap-4 mb-6">
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">Architecture</h3>
+                                    <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-2">
+                                        <p>• Start with Minimum Viable Architecture—build incrementally</p>
+                                        <p>• Design for testability, deployability, and observability from day one</p>
+                                        <p>• Embrace evolutionary design</p>
+                                        <p>• Decoupling deployments from releases</p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">Security</h3>
+                                    <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-2">
+                                        <p>• Shift-left security—integrate checks in CI/CD</p>
+                                        <p>• Zero Trust mindset—verify every request</p>
+                                        <p>• Defense in depth—multiple security layers</p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                    <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">Operations</h3>
+                                    <div class="text-xs text-neutral-700 dark:text-neutral-300 space-y-2">
+                                        <p>• Automate toil—if you do it twice, script it</p>
+                                        <p>• Observability over monitoring—understand why things fail</p>
+                                        <p>• Blameless post-mortems—learn and improve</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-neutral-200 p-5 dark:border-neutral-800">
+                                <h3 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-3">Collaboration</h3>
+                                <div class="text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
+                                    <p>• Documentation is code—Architecture Decision Records (ADRs), runbooks, API specs</p>
+                                    <p>• Mentorship mindset—uplift team capabilities through pair programming, code reviews</p>
+                                    <p>• Agile pragmatism—Scrum/Kanban as tools, not dogma</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education & Background -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Education & Background
+                            </h2>
+
+                            <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+                                <h3 class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Bachelor's Degree in Computer Science</h3>
+                                <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+                                    Relevant coursework: Operating Systems, Cloud Computing, Data Structures, Algorithms, Database
+                                    Systems, Network Security, Software Engineering
+                                </p>
+
+                                <h4 class="font-extrabold text-neutral-900 dark:text-neutral-100 mb-2 mt-4">Professional Experience</h4>
+                                <div class="text-sm text-neutral-700 dark:text-neutral-300 space-y-1">
+                                    <p>• 3+ years hands-on software development in production environments</p>
+                                    <p>• Experience with Agile/Scrum methodologies</p>
+                                    <p>• Exposure to large-scale distributed systems</p>
+                                    <p>• Cross-functional collaboration (product, design, security, ops teams)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Let's Connect -->
+                        <div class="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                            <h2 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 border-b border-neutral-200 pb-3 dark:border-neutral-800">
+                                Let's Connect
+                            </h2>
+
+                            <div class="mt-6 rounded-2xl border-2 border-neutral-900 p-6 dark:border-neutral-200">
+                                <p class="text-base text-neutral-700 dark:text-neutral-300 mb-4">
+                                    I'm passionate about building technology that drives financial inclusion and economic empowerment. If you're working on:
+                                </p>
+
+                                <div class="grid md:grid-cols-2 gap-3 mb-6 text-sm text-neutral-700 dark:text-neutral-300">
+                                    <div class="rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800">
+                                        <p>Mobile payment platforms or super apps</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800">
+                                        <p>Cloud-native SaaS products at scale</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800">
+                                        <p>DevSecOps transformation initiatives</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800">
+                                        <p>High-reliability fintech systems</p>
+                                    </div>
+                                </div>
+
+                                <p class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 mb-4">I'd love to collaborate!</p>
+
+                                <div class="flex flex-wrap gap-3 mb-4">
+                                    <a href="https://github.com/barasapeter"
+                                       class="rounded-xl border-2 border-neutral-900 px-6 py-2 font-semibold text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors dark:border-neutral-200 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-neutral-900">
+                                        GitHub
+                                    </a>
+                                    <a href="https://bsky.app/profile/barasapeter.bsky.social"
+                                       class="rounded-xl border-2 border-neutral-900 px-6 py-2 font-semibold text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors dark:border-neutral-200 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-neutral-900">
+                                        BlueSky
+                                    </a>
+                                    <a href="https://x.com/devilmusk"
+                                       class="rounded-xl border-2 border-neutral-900 px-6 py-2 font-semibold text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors dark:border-neutral-200 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-neutral-900">
+                                        X
+                                    </a>
+                                    <a href="mailto:barasapeter52@gmail.com"
+                                       class="rounded-xl border-2 border-neutral-900 px-6 py-2 font-semibold text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors dark:border-neutral-200 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-neutral-900">
+                                        Email
+                                    </a>
+                                </div>
+
+                                <div class="text-sm text-neutral-600 dark:text-neutral-300">
+                                    <p>Nairobi, Kenya | Remote/Hybrid</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Reference (same content) -->
+                        <div class="rounded-3xl bg-neutral-900 text-white p-6 sm:p-8 border border-neutral-900 shadow-soft dark:bg-white dark:text-neutral-900 dark:border-neutral-200">
+                            <h2 class="text-xl font-extrabold mb-4">Quick Reference</h2>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="mb-2"><span class="font-semibold">Primary Skills:</span> Cloud Architecture | Backend Engineering | DevSecOps | FinTech Systems</p>
+                                    <p class="mb-2"><span class="font-semibold">Cloud:</span> AWS (expert), Azure (intermediate)</p>
+                                    <p class="mb-2"><span class="font-semibold">Languages:</span> Java, Python, Golang, C++, Node.js, SQL, Bash</p>
+                                </div>
+                                <div>
+                                    <p class="mb-2"><span class="font-semibold">Focus Areas:</span> Payment Systems, Microservices, Security, Observability</p>
+                                    <p class="mb-2"><span class="font-semibold">Career Stage:</span> Transitioning to Senior/Architect roles</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right rail (UI only): keeps content intact, just provides navigational polish) -->
+                    <aside class="lg:col-span-4" hidden>
+                        <div class="sticky top-24 space-y-4">
+                            <div class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                                <div class="font-semibold">Navigation</div>
+                                <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Same content, cleaner landing.</p>
+                                <div class="mt-4 space-y-2 text-sm">
+                                    <a href="#terminal-wrapper" class="block rounded-xl px-3 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-900">Terminal</a>
+                                    <a href="/blog" class="block rounded-xl px-3 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-900">Blog</a>
+                                </div>
+                            </div>
+
+                            <div class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft dark:border-neutral-800 dark:bg-neutral-950">
+                                <div class="font-semibold">Footer</div>
+                                <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+                                    © 2026 Designed and developed by Peter Barasa.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- Footer (same text) -->
+            <footer class="mt-10 pb-10 text-sm text-neutral-500 dark:text-neutral-400">
+                © 2026 Designed and developed by Peter Barasa.
+            </footer>
+        </main>
+    </div>
+
+    <script src="/static/javascript/index.js"></script>
+
+    <script>
+        // Lucide init (safe even if index.js also calls it)
+        try { lucide.createIcons(); } catch (e) {}
+
+        // Theme toggle
+        const themeToggle = document.getElementById("themeToggle");
+        themeToggle?.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+
+        // Reading progress
+        const progressBar = document.getElementById("progressBar");
+        function updateProgress() {
+            const doc = document.documentElement;
+            const scrollTop = doc.scrollTop || document.body.scrollTop;
+            const height = doc.scrollHeight - doc.clientHeight;
+            const p = height > 0 ? (scrollTop / height) * 100 : 0;
+            progressBar.style.width = p + "%";
+        }
+        document.addEventListener("scroll", updateProgress, { passive: true });
+        updateProgress();
+    </script>
+</body>
+</html>
