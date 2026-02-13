@@ -53,16 +53,15 @@ sudo -u ubuntu bash -lc "
 
 echo "==> Write .env"
 sudo -u ubuntu bash -lc "cat > '$APP_DIR/.env' <<EOF
-POSTGRES_DB=$DB_NAME
+POSTGRES_SERVER=localhost 
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
+POSTGRES_DB=$DB_NAME
 
-JWT_SECRET_KEY=generic
+JWT_SECRET_KEY="i am batman"
 
-AWS_ACCESS_KEY=dummy
-AWS_SECRET_ACCESS_KEY=dummy
+AWS_ACCESS_KEY="AKIARMSO57IJS4RI2X2T"
+AWS_SECRET_ACCESS_KEY="5t8trlevcYYgqqGOa499L1ro9bgZcHrzfdr6RwIF"
 EOF"
 
 echo "==> Postgres: create db + set password (idempotent)"
