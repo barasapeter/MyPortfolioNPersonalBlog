@@ -5,7 +5,7 @@ variable "region" {
 
 variable "instance_name" {
   type    = string
-  default = "managed-prod-machine"
+  default = "portfolio-blog-machine"
 }
 
 # Optional: set this if you want to attach your existing Elastic IP

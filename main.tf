@@ -68,7 +68,7 @@ locals {
 # --- Security Group (matches your manual rules) ---
 resource "aws_security_group" "portfolio_sg" {
   name        = "${var.instance_name}-sg"
-  description = "managed-prod-machine SG"
+  description = "portfolio-blog-machine SG"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {

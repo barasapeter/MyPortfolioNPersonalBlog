@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOMAIN="managed.cardlabs.cloud"
+DOMAIN="cardlabs.cloud"
 EMAIL="barasapeter52@gmail.com"
 REPO="https://github.com/barasapeter/MyPortfolioNPersonalBlog.git"
 APP_DIR="/home/ubuntu/MyPortfolioNPersonalBlog"
