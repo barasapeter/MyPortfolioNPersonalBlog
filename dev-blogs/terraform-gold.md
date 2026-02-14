@@ -1,4 +1,6 @@
-# From 1,000 Clicks to 2 Commands: How I Deployed My Blogging App with Terraform
+# From 1,000 Clicks to 2 Commands
+
+## How I Deployed My Blogging App with Terraform
 
 Building the blogging app was one journey.
 
