@@ -20,7 +20,7 @@ data "aws_ami" "ubuntu_2404" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
   }
 
   filter {
@@ -28,6 +28,7 @@ data "aws_ami" "ubuntu_2404" {
     values = ["hvm"]
   }
 }
+
 
 # --- Default VPC / default subnet (simple console-like provisioning) ---
 data "aws_vpc" "default" {
@@ -67,7 +68,7 @@ locals {
 # --- Security Group (matches your manual rules) ---
 resource "aws_security_group" "portfolio_sg" {
   name        = "${var.instance_name}-sg"
-  description = "portfolio-prod-machine SG"
+  description = "managed-prod-machine SG"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {

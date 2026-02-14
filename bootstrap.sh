@@ -52,16 +52,17 @@ sudo -u ubuntu bash -lc "
 
 echo "==> Write .env"
 sudo -u ubuntu bash -lc "cat > '$APP_DIR/.env' <<EOF
-POSTGRES_SERVER=localhost 
+POSTGRES_SERVER=localhost
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-POSTGRES_DB=$DB_NAME
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+POSTGRES_DB=${DB_NAME}
 
-JWT_SECRET_KEY="i am batman"
+JWT_SECRET_KEY=i_am_batman
 
 AWS_ACCESS_KEY=lolno
 AWS_SECRET_ACCESS_KEY=lol
 EOF"
+
 
 echo "==> Postgres: create db + set password (idempotent)"
 sudo systemctl enable --now postgresql
