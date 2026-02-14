@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ========= EDIT THESE =========
-DOMAIN="blog.cardlabs.cloud"                       # e.g. blog.cardlabs.cloud
+DOMAIN="managed.cardlabs.cloud"
 EMAIL="barasapeter52@gmail.com"
 REPO="https://github.com/barasapeter/MyPortfolioNPersonalBlog.git"
 APP_DIR="/home/ubuntu/MyPortfolioNPersonalBlog"
