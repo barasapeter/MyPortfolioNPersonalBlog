@@ -29,7 +29,6 @@ data "aws_ami" "ubuntu_2404" {
   }
 }
 
-
 # --- Default VPC / default subnet (simple console-like provisioning) ---
 data "aws_vpc" "default" {
   default = true
@@ -40,6 +39,34 @@ data "aws_subnets" "default" {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
+}
+
+# --- SSM: allow the instance to register with AWS Systems Manager ---
+data "aws_iam_policy" "ssm_core" {
+  arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role" "ec2_ssm_role" {
+  name = "${var.instance_name}-ec2-ssm-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = { Service = "ec2.amazonaws.com" },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_ssm_attach" {
+  role       = aws_iam_role.ec2_ssm_role.name
+  policy_arn = data.aws_iam_policy.ssm_core.arn
+}
+
+resource "aws_iam_instance_profile" "ec2_ssm_profile" {
+  name = "${var.instance_name}-ec2-ssm-profile"
+  role = aws_iam_role.ec2_ssm_role.name
 }
 
 locals {
@@ -115,6 +142,15 @@ resource "aws_instance" "portfolio" {
   subnet_id     = local.subnet_id
 
   vpc_security_group_ids = [aws_security_group.portfolio_sg.id]
+
+  # Attach SSM instance profile (this is the key change)
+  iam_instance_profile = aws_iam_instance_profile.ec2_ssm_profile.name
+
+  # Optional but recommended (IMDSv2)
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
 
   # NO key pair (matches your manual requirement)
   # key_name = ...

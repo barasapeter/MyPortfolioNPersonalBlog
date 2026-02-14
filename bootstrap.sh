@@ -26,6 +26,11 @@ echo "==> System update"
 sudo apt-get update -y
 sudo apt-get upgrade -y
 
+# Ubuntu usually has the SSM agent available, but don’t rely on “usually”. Make it explicit in your bootstrap.
+echo "==> Install + start SSM agent"
+sudo snap install amazon-ssm-agent --classic || sudo apt-get install -y amazon-ssm-agent
+sudo systemctl enable --now amazon-ssm-agent || true
+
 echo "==> Install packages"
 sudo apt-get install -y \
   git nginx certbot python3-certbot-nginx \
@@ -139,3 +144,11 @@ echo "  sudo systemctl status $SERVICE_NAME --no-pager"
 echo "  sudo journalctl -u $SERVICE_NAME -n 80 --no-pager"
 echo "  curl -I http://$DOMAIN"
 echo "  curl -I https://$DOMAIN"
+
+# deploy updates
+chmod +x deploy.sh
+
+echo "==> Install deploy helper"
+sudo ln -sf "$APP_DIR/deploy.sh" /usr/local/bin/app-deploy
+sudo chmod +x /usr/local/bin/app-deploy
+
