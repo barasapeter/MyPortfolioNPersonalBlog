@@ -1,3 +1,68 @@
+Cool, we can mirror those console clicks almost 1:1 in Terraform. Below is a Terraform setup that matches your manual provisioning requirements exactly:
+
+* **Name tag:** `portfolio-prod-machine`
+* **AMI:** **Ubuntu Server 24.04 LTS** (HVM, SSD)
+* **Instance type:** `t3.micro`
+* **No key pair** (so `key_name` is not set)
+* **Security group:** SSH from `0.0.0.0/0`, HTTP/HTTPS from internet
+* **Root volume:** `8 GiB`, **gp3**, **3000 IOPS**, **not encrypted**
+* (Optional) **Attach your existing Elastic IP** `52.6.232.178`
+* Runs your deploy script using **user_data** on first boot
+
+---
+
+## 1) Folder layout
+
+```
+iac-fastapi/
+  main.tf
+  variables.tf
+  outputs.tf
+  bootstrap.sh   # your script exactly
+```
+
+Put your script in `bootstrap.sh` (same content you posted).
+
+---
+
+## 2) `variables.tf`
+
+```hcl
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "instance_name" {
+  type    = string
+  default = "portfolio-prod-machine"
+}
+
+# Optional: set this if you want to attach your existing Elastic IP
+variable "eip_public_ip" {
+  type    = string
+  default = "52.6.232.178"
+}
+
+# If you don't want EIP association, set this to false at apply time
+variable "attach_eip" {
+  type    = bool
+  default = true
+}
+
+# Used by your bootstrap script (it requires it)
+# ⚠️ Note: this will end up in terraform state if passed directly.
+variable "postgres_password" {
+  type      = string
+  sensitive = true
+}
+```
+
+---
+
+## 3) `main.tf`
+
+```hcl
 terraform {
   required_version = ">= 1.5.0"
 
@@ -144,3 +209,54 @@ resource "aws_eip_association" "attach" {
   instance_id   = aws_instance.portfolio.id
   allocation_id = data.aws_eip.existing[0].id
 }
+```
+
+---
+
+## 4) `outputs.tf`
+
+```hcl
+output "instance_id" {
+  value = aws_instance.portfolio.id
+}
+
+output "public_ip" {
+  value = var.attach_eip ? var.eip_public_ip : aws_instance.portfolio.public_ip
+}
+
+output "name" {
+  value = aws_instance.portfolio.tags["Name"]
+}
+```
+
+---
+
+## 5) Deploy
+
+```bash
+terraform init
+
+terraform apply -var="postgres_password=SuperStrongPassword"
+```
+
+If you *don’t* want to associate the EIP (for testing):
+
+```bash
+terraform apply -var="postgres_password=SuperStrongPassword" -var="attach_eip=false"
+```
+
+---
+
+## Important reality check (because you said “no key pair”)
+
+* **No key pair** means you **cannot SSH in**, even though port 22 is open.
+* Your app can still deploy via **user_data**, but if something fails you’ll want logs.
+
+Two easy ways to see logs without SSH:
+
+1. **EC2 console System Log** (quick sanity check)
+2. Add **SSM Session Manager** (best practice). If you want, I’ll drop in the Terraform bits to attach the SSM role so you can shell into it without keys.
+
+---
+
+If you want, paste your current Terraform directory (or tell me which region your EIP is in) and I’ll adjust this so the subnet selection is deterministic (e.g., pick a specific AZ), and I can add an option to **wait for cloud-init completion** and print a “deployment status” via instance logs.
