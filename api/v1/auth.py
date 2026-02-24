@@ -5,6 +5,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
+from api.v1.auth_core import get_current_user, get_optional_user, verify_token
 
 import traceback
 import logging
@@ -24,8 +25,21 @@ logger = logging.getLogger(settings.PROJECT_NAME)
 
 
 @router.post("/login")
-async def login(response: Response, request: Request, db: Session = Depends(get_db)):
+async def login(
+    response: Response,
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: int | None = Depends(get_optional_user),
+):
     try:
+
+        if user_id:
+            user = db.query(User).filter(User.id == user_id).first()
+            if user:
+                return JSONResponse(
+                    status_code=200,
+                    content={"detail": "User already logged in"},
+                )
 
         payload = await request.json()
 

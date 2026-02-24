@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from api.v1.createuser import router as create_user_router
 from api.v1.updateuser import router as update_user_router
 from api.v1.auth import router as auth_router
+from api.v1.posts import router as posts_router
 from core.config import settings
 from web.home import router as home_router
 from fastapi.staticfiles import StaticFiles
@@ -127,27 +128,13 @@ app = FastAPI(
 )
 
 
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    start_time = time.time()
-    try:
-        response: Response = await call_next(request)
-    except Exception as e:
-        logger.exception(f"Unhandled error: {e}")
-        raise e
-    process_time = time.time() - start_time
-    logger.info(
-        f"{request.method} {request.url.path} - Status: {response.status_code} - Time: {process_time:.2f}s"
-    )
-    return response
-
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(create_user_router, prefix=settings.API_V1_STR)
 app.include_router(update_user_router, prefix=settings.API_V1_STR)
 app.include_router(home_router, prefix="")
+app.include_router(posts_router)
 
 
 if __name__ == "__main__":
