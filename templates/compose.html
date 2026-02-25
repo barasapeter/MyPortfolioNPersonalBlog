@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <div class="max-w-5xl mx-auto px-4 py-10">
+      <header class="mb-8">
+        <h1 class="text-3xl font-bold">Write a blog post</h1>
+        <p class="text-slate-600 mt-2">Create, publish, and upload a featured image.</p>
+      </header>
+
+      <div id="alertWrap" class="hidden mb-6">
+        <div id="alertBox" class="rounded-lg border p-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <section class="lg:col-span-2 bg-white border rounded-2xl shadow-sm p-6">
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium mb-1">Title *</label>
+              <input id="title" class="w-full rounded-lg border px-3 py-2" />
+              <p id="titleErr" class="text-sm text-red-600 mt-1 hidden"></p>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between">
+                <label class="block text-sm font-medium mb-1">Slug</label>
+                <button id="genSlugBtn" type="button" class="text-sm underline">generate</button>
+              </div>
+              <input id="slug" class="w-full rounded-lg border px-3 py-2 font-mono text-sm" />
+              <p class="text-xs text-slate-500 mt-1">Optional (server can generate if omitted).</p>
+              <p id="slugErr" class="text-sm text-red-600 mt-1 hidden"></p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Excerpt</label>
+              <textarea id="excerpt" rows="3" class="w-full rounded-lg border px-3 py-2"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Content</label>
+              <textarea id="content" rows="14" class="w-full rounded-lg border px-3 py-2 font-mono text-sm"></textarea>
+              <p id="contentErr" class="text-sm text-red-600 mt-1 hidden"></p>
+            </div>
+
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button id="draftBtn" type="button" class="rounded-xl border px-4 py-2 bg-white hover:bg-slate-50">
+                Save Draft
+              </button>
+              <button id="publishBtn" type="button" class="rounded-xl px-4 py-2 bg-slate-900 text-white hover:bg-slate-800">
+                Publish
+              </button>
+
+              <div class="ml-auto flex items-center gap-3">
+                <span id="statusPill" class="text-xs px-2 py-1 rounded-full bg-slate-100 border">idle</span>
+                <span id="spinner" class="hidden text-sm text-slate-600">Submitting…</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="bg-white border rounded-2xl shadow-sm p-6 space-y-6">
+          <div>
+            <label class="block text-sm font-medium mb-1">Category</label>
+            <select id="category_id" class="w-full rounded-lg border px-3 py-2 bg-white"></select>
+            <p id="categoryErr" class="text-sm text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2">Tags</label>
+            <div id="tagsWrap" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div class="border-t pt-5 space-y-3 hidden">
+            <h2 class="text-lg font-semibold">Featured image</h2>
+            <p class="text-sm text-slate-600">Upload after creating the post.</p>
+
+            <input id="featuredFile" type="file" accept="image/png,image/jpeg,image/webp" class="block w-full" disabled />
+            <button
+              id="uploadBtn"
+              type="button"
+              class="rounded-xl px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50"
+              disabled
+            >
+              Upload image
+            </button>
+
+            <p id="uploadHint" class="text-xs text-slate-500">Create a post first to enable upload.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "{{ api_base }}";
+      const CATEGORIES = {{ categories_json | safe }};
+      const TAGS = {{ tags_json | safe }};
+
+      const el = (id) => document.getElementById(id);
+
+      const alertWrap = el("alertWrap");
+      const alertBox = el("alertBox");
+      const spinner = el("spinner");
+      const statusPill = el("statusPill");
+
+      const title = el("title");
+      const slug = el("slug");
+      const excerpt = el("excerpt");
+      const content = el("content");
+      const category_id = el("category_id");
+      const tagsWrap = el("tagsWrap");
+
+      const draftBtn = el("draftBtn");
+      const publishBtn = el("publishBtn");
+      const genSlugBtn = el("genSlugBtn");
+
+      const featuredFile = el("featuredFile");
+      const uploadBtn = el("uploadBtn");
+      const uploadHint = el("uploadHint");
+
+      const titleErr = el("titleErr");
+      const slugErr = el("slugErr");
+      const contentErr = el("contentErr");
+      const categoryErr = el("categoryErr");
+
+      let createdPostId = null;
+
+      function showAlert(type, title, message) {
+        alertWrap.classList.remove("hidden");
+        const styles =
+          type === "success"
+            ? "bg-emerald-50 border-emerald-200 text-emerald-900"
+            : "bg-red-50 border-red-200 text-red-900";
+        alertBox.className = `rounded-lg border p-4 ${styles}`;
+        alertBox.innerHTML = `<div class="font-semibold">${esc(title)}</div><div class="mt-1 text-sm">${esc(message)}</div>`;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function clearAlert() {
+        alertWrap.classList.add("hidden");
+        alertBox.innerHTML = "";
+      }
+
+      function setBusy(isBusy, label = "submitting") {
+        spinner.classList.toggle("hidden", !isBusy);
+        draftBtn.disabled = isBusy;
+        publishBtn.disabled = isBusy;
+        genSlugBtn.disabled = isBusy;
+
+        statusPill.textContent = isBusy ? label : "idle";
+      }
+
+      function setFieldError(node, msg) {
+        node.textContent = msg;
+        node.classList.toggle("hidden", !msg);
+      }
+
+      function clearFieldErrors() {
+        setFieldError(titleErr, "");
+        setFieldError(slugErr, "");
+        setFieldError(contentErr, "");
+        setFieldError(categoryErr, "");
+      }
+
+      function esc(s) {
+        return String(s).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+      }
+
+      function slugify(text) {
+        return (text || "")
+          .toString()
+          .trim()
+          .toLowerCase()
+          .replace(/['"]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .replace(/-+/g, "-");
+      }
+
+      function authHeaders() {
+        const token = localStorage.getItem("access_token");
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      }
+
+      function selectedTagIds() {
+        return Array.from(document.querySelectorAll('input[name="tag"]:checked')).map((i) => Number(i.value));
+      }
+
+      function validate() {
+        clearAlert();
+        clearFieldErrors();
+        let ok = true;
+
+        if (!title.value.trim()) {
+          setFieldError(titleErr, "Title is required.");
+          ok = false;
+        }
+        if (!content.value.trim()) {
+          setFieldError(contentErr, "Content is required.");
+          ok = false;
+        }
+        // category_id is optional per backend, but if you want it required in UI:
+        // enforce it here. Otherwise remove this block.
+        if (!category_id.value) {
+          setFieldError(categoryErr, "Pick a category (or adjust UI if optional).");
+          ok = false;
+        }
+
+        return ok;
+      }
+
+      async function safeJson(res) {
+        const text = await res.text();
+        try { return text ? JSON.parse(text) : null; } catch { return text || null; }
+      }
+
+      async function createPost(status) {
+        if (!validate()) {
+          showAlert("error", "Fix errors", "Please fix the highlighted fields.");
+          return;
+        }
+
+        setBusy(true, status === "published" ? "publishing" : "saving");
+
+        const payload = {
+          title: title.value.trim(),
+          // slug is optional: only send if user typed it
+          ...(slug.value.trim() ? { slug: slug.value.trim() } : {}),
+          excerpt: excerpt.value.trim() || null,
+          content: content.value,
+          featured_image: null, // image uploaded separately
+          category_id: category_id.value ? Number(category_id.value) : null,
+          status: status,
+          tag_ids: selectedTagIds().length ? selectedTagIds() : null,
+        };
+
+        try {
+          const res = await fetch(`${API_BASE}/post`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...authHeaders() },
+            body: JSON.stringify(payload),
+          });
+
+          const body = await safeJson(res);
+
+          if (res.status === 201) {
+            createdPostId = body.id;
+            showAlert("success", "Post created", `Post #${body.id} created. You can now upload a featured image.`);
+            enableUpload();
+            return;
+          }
+
+          if (res.status === 401) {
+            showAlert("error", "Unauthorized", "No/invalid token. Put access_token in localStorage or switch to cookie auth.");
+            return;
+          }
+
+          if (res.status === 422 && body && body.detail) {
+            const detail = Array.isArray(body.detail) ? body.detail : [body.detail];
+            const msg = detail.map((d) => d.msg || JSON.stringify(d)).join(" • ");
+            showAlert("error", "Validation error (422)", msg);
+            return;
+          }
+
+          showAlert("error", `Request failed (${res.status})`, typeof body === "string" ? body : JSON.stringify(body ?? {}, null, 2));
+        } catch (e) {
+          showAlert("error", "Network error", e.message || String(e));
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      function enableUpload() {
+        featuredFile.disabled = false;
+        uploadBtn.disabled = false;
+        uploadHint.textContent = createdPostId ? `Uploading will save to /static/images/featured/${createdPostId}.png` : "Create a post first.";
+      }
+
+      async function uploadFeaturedImage() {
+        clearAlert();
+
+        if (!createdPostId) {
+          showAlert("error", "No post yet", "Create the post first, then upload.");
+          return;
+        }
+        const f = featuredFile.files?.[0];
+        if (!f) {
+          showAlert("error", "No file selected", "Please choose an image file.");
+          return;
+        }
+
+        const fd = new FormData();
+        fd.append("file", f);
+
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "Uploading…";
+
+        try {
+          const res = await fetch(`${API_BASE}/post/${createdPostId}/featured-image`, {
+            method: "POST",
+            headers: { ...authHeaders() }, // do NOT set Content-Type manually for FormData
+            body: fd,
+          });
+
+          const body = await safeJson(res);
+
+          if (res.ok) {
+            showAlert("success", "Uploaded", `Saved as ${body.featured_image}`);
+            return;
+          }
+
+          if (res.status === 401) {
+            showAlert("error", "Unauthorized", "No/invalid token for upload.");
+            return;
+          }
+
+          showAlert("error", `Upload failed (${res.status})`, typeof body === "string" ? body : JSON.stringify(body ?? {}, null, 2));
+        } catch (e) {
+          showAlert("error", "Network error", e.message || String(e));
+        } finally {
+          uploadBtn.disabled = false;
+          uploadBtn.textContent = "Upload image";
+        }
+      }
+
+      // Init UI from injected data
+      function init() {
+        // categories
+        category_id.innerHTML = `<option value="">Select a category</option>`;
+        for (const c of CATEGORIES) {
+          const opt = document.createElement("option");
+          opt.value = c.id;
+          opt.textContent = `${c.name} (#${c.id})`;
+          category_id.appendChild(opt);
+        }
+
+        // tags
+        tagsWrap.innerHTML = "";
+        for (const t of TAGS) {
+          const label = document.createElement("label");
+          label.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full border bg-white hover:bg-slate-50 cursor-pointer text-sm";
+          label.innerHTML = `<input class="rounded" type="checkbox" name="tag" value="${t.id}" /><span>${esc(t.name)}</span>`;
+          tagsWrap.appendChild(label);
+        }
+
+        genSlugBtn.addEventListener("click", () => {
+          slug.value = slugify(title.value);
+        });
+
+        draftBtn.addEventListener("click", () => createPost("draft"));
+        publishBtn.addEventListener("click", () => createPost("published"));
+        uploadBtn.addEventListener("click", uploadFeaturedImage);
+      }
+
+      init();
+    </script>
+  </body>
+</html>

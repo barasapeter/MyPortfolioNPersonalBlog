@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="flex-1">
-                    <form method="POST" action="/posts/create">
+                    <div>
                         <textarea name="content" rows="2" placeholder="Write blog excerpt"
                             class="w-full resize-none text-[20px] leading-6 placeholder-[#536471] focus:outline-none bg-transparent"></textarea>
 
@@ -104,12 +104,12 @@
                                 </button>
                             </div>
 
-                            <button type="submit"
+                            <button onclick="window.location.href='/compose'"
                                 class="bg-[#1d9bf0] text-white font-bold text-[15px] px-4 py-1.5 rounded-full hover:bg-[#1a8cd8] transition disabled:opacity-50">
                                 Compose Blog →
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
